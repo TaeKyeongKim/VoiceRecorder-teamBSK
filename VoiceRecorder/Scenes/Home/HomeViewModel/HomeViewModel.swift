@@ -9,10 +9,11 @@ import Foundation
 
 final class HomeViewModel {
     
-    var audioTitles: [String] = []
-    var audioData: [String: Observable<AudioRepresentation>] = [:]
+    private (set) var audioTitles: [String] = []
+    private var audioPresentation: [AudioPresentation] = []
+    private (set) var audioData: [String: Observable<AudioPresentation>] = [:]
     
-    subscript(_ indexPath: IndexPath) -> AudioRepresentation? {
+    subscript(_ indexPath: IndexPath) -> AudioPresentation? {
         let title = audioTitles[indexPath.item]
         guard let data = audioData[title]?.value else {return nil}
         return data
@@ -24,7 +25,7 @@ final class HomeViewModel {
             case .success(let data):
                 data.items.forEach({
                     self?.audioTitles.append($0.name)
-                    self?.audioData.updateValue(Observable<AudioRepresentation>(AudioRepresentation(filename: nil, createdDate: nil, length: nil)), forKey: $0.name)
+                    self?.audioData.updateValue(Observable<AudioPresentation>(AudioPresentation(filename: nil, createdDate: nil, length: nil)), forKey: $0.name)
                 })
                 completion()
             case .failure(let error):
@@ -34,21 +35,42 @@ final class HomeViewModel {
     }
     
     func fetchMetaData(){
-        audioTitles.forEach({
-            let endPoint = EndPoint(fileName: $0)
-            FirebaseService.featchMetaData(endPoint: endPoint) {[weak self] result in
-                switch result {
-                case .success(let metadata):
-                    self?.audioData[endPoint.fileName]?.value = metadata.toDomain()
-                case .failure(let error):
-                    print(error)
+        let group = DispatchGroup()
+        DispatchQueue.global().async {
+            self.audioTitles.forEach({
+                group.enter()
+                let endPoint = EndPoint(fileName: $0)
+                FirebaseService.featchMetaData(endPoint: endPoint) {[weak self] result in
+                    switch result {
+                    case .success(let metadata):
+                        self?.audioPresentation.append(metadata.toDomain())
+                    case .failure(let error):
+                        print(error)
+                    }
+                    group.leave()
                 }
+            })
+            group.notify(queue: .main) {
+                self.sortByDate()
             }
-        })
+        }
     }
     
+    func sortByDate() {
+
+            self.audioTitles = self.audioTitles.sorted(by: { (val1, val2) in
+                guard let index1 = self.audioPresentation.firstIndex(where: {$0.filename == val1}) else {return false}
+                guard let index2 = self.audioPresentation.firstIndex(where: {$0.filename == val2}) else {return false}
+                return self.audioPresentation[index1].createdDate?.compare(self.audioPresentation[index2].createdDate ?? Date()) == .orderedDescending
+            })
+            self.audioTitles.forEach({ title in
+                guard let index = audioPresentation.firstIndex(where: {$0.filename == title})  else {return}
+                self.audioData[title]?.value = audioPresentation[index]
+            })
+
+    }
     
-    func enquireForURL(_ audioRepresentation: AudioRepresentation, completion: @escaping (URL?) -> Void) {
+    func enquireForURL(_ audioRepresentation: AudioPresentation, completion: @escaping (URL?) -> Void) {
         guard let fileName = audioRepresentation.filename else {return}
         let endPoint = EndPoint(fileName: fileName)
         FirebaseService.makeURL(endPoint: endPoint) { result in
@@ -59,8 +81,6 @@ final class HomeViewModel {
                 print(error)
             }
         }
-        
-        
     }
     
     func remove(indexPath: IndexPath, completion: @escaping (Bool) -> Void) {
@@ -72,14 +92,17 @@ final class HomeViewModel {
                 completion(false)
             }else{
                 self?.audioTitles.remove(at: indexPath.item)
+                self?.audioPresentation.remove(at: indexPath.item)
                 self?.audioData.removeValue(forKey: title)
                 completion(true)
             }
         }
     }
     
+    
     func reset(){
         audioTitles.removeAll()
+        audioPresentation.removeAll()
         audioData.removeAll()
     }
     

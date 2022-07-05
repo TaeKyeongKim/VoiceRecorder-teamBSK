@@ -51,7 +51,7 @@ final class HomeTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(model: AudioRepresentation?) {
+    func configure(model: AudioPresentation?) {
         guard let model = model, let date = model.createdDate else{return}
         title.text = MyDateFormatter.shared.calendarDateString(from: date)
         self.length.text = model.length ?? ""
