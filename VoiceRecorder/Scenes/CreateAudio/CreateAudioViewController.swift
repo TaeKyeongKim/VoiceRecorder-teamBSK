@@ -26,28 +26,12 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     
     
     @objc private func tapRecordingButton() {
-//        AVFAudio.AVAudioEngine.audioUnit.AVAudioUnit.AVAudioUnitEQFilterParameters.frequency
-//        let a = AVAudioEngine()
-//        let eq = AVAudioUnitEQ(numberOfBands: 1)
-//        let filterParams = eq.bands[0] as AVAudioUnitEQFilterParameters
-//        filterParams.filterType = .lowPass
-//        filterParams.frequency = 100.0
-//        filterParams.bypass = false
-//        a.attach(eq)
-        
         if createAudioView.recordingButton.isSelected{
-            createAudioView.recordingButton.isSelected = false
+            bottonsToggle(true)
             audioRecorder?.stop()
-            setTotalPlayTime()
-            createAudioView.buttons.playButton.isEnabled = true // toggle
-            createAudioView.buttons.backButton.isEnabled = true
-            createAudioView.buttons.forwordButton.isEnabled = true
-            
+            setTotalPlayTimeLabel()
         }else{
-            createAudioView.recordingButton.isSelected = true
-            createAudioView.buttons.playButton.isEnabled = false
-            createAudioView.buttons.backButton.isEnabled = false
-            createAudioView.buttons.forwordButton.isEnabled = false
+            bottonsToggle(false)
             self.record()
         }
     }
@@ -67,23 +51,13 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     }
     @objc
     func tapDoneButton() {
-        guard let audioRecorder = audioRecorder else { return }
+        guard let audioRecorder = audioRecorder else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
         do {
             let data = try Data(contentsOf: audioRecorder.url)
-            let customData = CustomMetadata(length: createAudioView.totalLenLabel.text ?? "00:00")
-            let storageMetadata = StorageMetadata()
-            storageMetadata.customMetadata = customData.toDict()
-            storageMetadata.contentType = "audio/mpeg"
-            let audioInfo = AudioInfo(id: UUID().uuidString, data: data, metadata: storageMetadata)
-            FirebaseService.uploadAudio(audio: audioInfo) { result in
-                switch result {
-                case .success(_):
-                    self.navigationController?.popViewController(animated: true)
-                case .failure(let error):
-                    print("firebase err: \(error)")
-                    self.navigationController?.popViewController(animated: true) // 수정 필요
-                }
-            }
+            uploadDataToStorage(data: data)
         } catch {
             print("error: \(error.localizedDescription)")
             self.navigationController?.popViewController(animated: true) // 수정 필요
@@ -150,7 +124,7 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
       }
     }
     
-    func setTotalPlayTime(){
+    func setTotalPlayTimeLabel(){
         if let audioRecorder = audioRecorder{
             audio = Audio(audioRecorder.url)
             let audioLenSec = Int(audio?.audioLengthSeconds ?? 0)
@@ -159,7 +133,40 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
             self.createAudioView.totalLenLabel.text = min + ":" + sec
         }
     }
+    
+    func bottonsToggle(_ bool: Bool){
+        createAudioView.recordingButton.isSelected = !bool
+        createAudioView.doneButton.isEnabled = bool
+        createAudioView.buttons.playButton.isEnabled = bool
+        createAudioView.buttons.backButton.isEnabled = bool
+        createAudioView.buttons.forwordButton.isEnabled = bool
+    }
+    
+    func uploadDataToStorage(data: Data){
+        let customData = CustomMetadata(length: createAudioView.totalLenLabel.text ?? "00:00")
+        let storageMetadata = StorageMetadata()
+        storageMetadata.customMetadata = customData.toDict()
+        storageMetadata.contentType = "audio/mpeg"
+        let audioInfo = AudioInfo(id: UUID().uuidString, data: data, metadata: storageMetadata)
+        FirebaseService.uploadAudio(audio: audioInfo) { result in
+            switch result {
+            case .success(_):
+                self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                print("firebase err: \(error)")
+                self.navigationController?.popViewController(animated: true) // 수정 필요
+            }
+        }
+    }
 }
 
 
 
+//        AVFAudio.AVAudioEngine.audioUnit.AVAudioUnit.AVAudioUnitEQFilterParameters.frequency
+//        let a = AVAudioEngine()
+//        let eq = AVAudioUnitEQ(numberOfBands: 1)
+//        let filterParams = eq.bands[0] as AVAudioUnitEQFilterParameters
+//        filterParams.filterType = .lowPass
+//        filterParams.frequency = 100.0
+//        filterParams.bypass = false
+//        a.attach(eq)
