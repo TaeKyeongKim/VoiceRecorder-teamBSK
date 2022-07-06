@@ -27,6 +27,7 @@ class CreateAudioView: UIView {
     lazy var totalLenLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
+        label.isHidden = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

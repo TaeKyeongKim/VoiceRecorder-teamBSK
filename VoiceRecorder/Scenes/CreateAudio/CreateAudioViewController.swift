@@ -33,7 +33,7 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
             bottonsToggle(true)
             timer?.invalidate()
             audioRecorder?.stop()
-            setTotalPlayTimeLabel()
+            setTotalPlayTime()
             createAudioView.wavedProgressView.scrollLayer.scroll(self.firstPoint)
             self.createAudioView.wavedProgressView.translation = 0
             initAudioPlayer()
@@ -106,7 +106,6 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
             self.createAudioView.wavedProgressView.scrollLayer.scroll(self.firstPoint)
         } else {
             self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.currentTime + 5)
-            
             self.i += 50
             self.createAudioView.wavedProgressView.translation += 50 * 3
             let newPoint = CGPoint(x: self.createAudioView.wavedProgressView.translation, y: 0.0)
@@ -191,8 +190,6 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
                 audioRecorder.updateMeters()
                 let db = audioRecorder.averagePower(forChannel: 0)
                 self.arr.append(CGFloat(db))
-                let audioLenSec = Int(self.audioPlayer?.currentTime ?? 0)
-                self.createAudioView.totalLenLabel.text = "\(audioLenSec / 60) : \(audioLenSec % 60)"
                 self.createAudioView.wavedProgressView.volumes = self.normalizeSoundLevel(level: db)
                 self.createAudioView.wavedProgressView.setNeedsDisplay()
             }
@@ -201,16 +198,6 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         print("error: \(error.localizedDescription)")
           self.audioRecorder?.stop()
       }
-    }
-    
-    func setTotalPlayTimeLabel(){
-        if let audioRecorder = audioRecorder{
-            audio = Audio(audioRecorder.url)
-            let audioLenSec = Int(audio?.audioLengthSeconds ?? 0)
-            let min = (audioLenSec / 60) < 10 ? "0" + String(audioLenSec / 60) : String(audioLenSec / 60)
-            let sec = (audioLenSec % 60) < 10 ? "0" + String(audioLenSec % 60) : String(audioLenSec % 60)
-            self.createAudioView.totalLenLabel.text = min + ":" + sec
-        }
     }
     
     func bottonsToggle(_ bool: Bool){
@@ -251,6 +238,17 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         } catch {
             print("error: \(error.localizedDescription)")
         }
+    }
+    
+    func setTotalPlayTime(){
+        if let audioRecorder = audioRecorder{
+            audio = Audio(audioRecorder.url)
+            let audioLenSec = Int(audio?.audioLengthSeconds ?? 0)
+            let min = audioLenSec / 60 < 10 ? "0" + String(audioLenSec / 60) : String(audioLenSec / 60)
+            let sec = audioLenSec % 60 < 10 ? "0" + String(audioLenSec % 60) : String(audioLenSec % 60)
+            self.createAudioView.totalLenLabel.text = min + ":" + sec
+        }
+        self.createAudioView.totalLenLabel.isHidden = false
     }
 }
 
