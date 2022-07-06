@@ -17,11 +17,17 @@ class CreateAudioView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    let buttons = PlayButtonView()
     
+    let buttons = PlayButtonView()
+    var wavedProgressView: WavedProgressView = {
+        var view = WavedProgressView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     lazy var totalLenLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
+        label.isHidden = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,11 +54,21 @@ class CreateAudioView: UIView {
         buttons.translatesAutoresizingMaskIntoConstraints = false
     }
     func config(){
+        self.addSubview(wavedProgressView)
         self.addSubview(recordingButton)
         self.addSubview(buttons)
         self.addSubview(doneButton)
         self.addSubview(totalLenLabel)
         NSLayoutConstraint.activate([
+//            wavedProgressView.topAnchor.constraint(equalTo: self.topAnchor, constant: 150),
+            wavedProgressView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            wavedProgressView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            wavedProgressView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            wavedProgressView.heightAnchor.constraint(equalToConstant: 250),
+
+//            wavedProgressView.bottomAnchor.constraint(equalTo: totalLenLabel.topAnchor, constant: -25),
+//            wavedProgressView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -400)
+            
 //            totalLenLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 100),
             totalLenLabel.bottomAnchor.constraint(equalTo: recordingButton.topAnchor, constant: -25),
             totalLenLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
