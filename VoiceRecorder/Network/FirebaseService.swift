@@ -40,6 +40,7 @@ enum FirebaseService {
     
     
     static func featchMetaData(endPoint: EndPoint, completion: @escaping (Result <StorageMetadata, Error>) -> Void) {
+        
         endPoint.path.getMetadata { result in
             switch result {
             case .success(let metaData):

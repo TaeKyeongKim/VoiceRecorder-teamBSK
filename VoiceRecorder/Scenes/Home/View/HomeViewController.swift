@@ -7,8 +7,8 @@ import UIKit
 
 final class HomeViewController: UIViewController {
     
-    var homeTableView: UITableView?
-    var homeViewModel = HomeViewModel()
+    private var homeTableView: UITableView?
+    private var homeViewModel = HomeViewModel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -78,13 +78,15 @@ private extension HomeViewController {
             }
             
             self.homeViewModel.fetchMetaData()
-            self.homeViewModel.audioData.values.forEach({ $0.bind { [weak self] metadata in
-                DispatchQueue.main.async {
-                    guard let filename = metadata.filename, let index = self?.homeViewModel.audioTitles.firstIndex(of: filename) else {return}
-                    self?.homeTableView?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-                }
-            }})
+            self.homeViewModel.audioData.values.forEach({
+                $0.bind { [weak self] metadata in
+                    DispatchQueue.main.async {
+                        guard let filename = metadata.filename, let index = self?.homeViewModel.audioTitles.firstIndex(of: filename) else {return}
+                        self?.homeTableView?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                    }
+                }})
         }
+        
     }
 }
 
@@ -115,7 +117,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
-        
+    
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
