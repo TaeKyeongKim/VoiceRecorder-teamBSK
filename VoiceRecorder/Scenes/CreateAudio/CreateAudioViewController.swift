@@ -35,6 +35,7 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
             audioRecorder?.stop()
             setTotalPlayTimeLabel()
             createAudioView.wavedProgressView.scrollLayer.scroll(self.firstPoint)
+            self.createAudioView.wavedProgressView.translation = 0
             initAudioPlayer()
         }else{
             bottonsToggle(false)
@@ -45,12 +46,16 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     private func playButtonClicked() {
 //        audio?.playOrPause()
         if isPlaying == true{
+            print("pause")
             audioPlayer?.pause()
             timer?.invalidate()
         }else{
+            print("play-----------")
+            print(self.createAudioView.wavedProgressView.translation, self.createAudioView.wavedProgressView.xOffset)
             audioPlayer?.delegate = self
             audioPlayer?.play()
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+                print("currTime:", self.audioPlayer!.currentTime)
                 if self.arr.count > self.i{
                     self.createAudioView.wavedProgressView.scrollLayerScroll()
                     self.i += 1
@@ -69,11 +74,33 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     func backButtonclicked() {
 //        guard audio != nil else { return }
 //        audio?.skip(forwards: false)
+        //
+        print("back------------",self.i)
+        if Double(audioPlayer!.currentTime) < 5 {
+            self.audioPlayer?.currentTime = TimeInterval(0.0)
+            self.i = 0
+            self.createAudioView.wavedProgressView.translation = 0
+            self.createAudioView.wavedProgressView.scrollLayer.scroll(self.firstPoint)
+        } else {
+            self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.currentTime - 5)
+            self.i -= 50
+            self.createAudioView.wavedProgressView.translation -= 50 * 3
+            let newPoint = CGPoint(x: self.createAudioView.wavedProgressView.translation, y: 0.0)
+            self.createAudioView.wavedProgressView.scrollLayer.scroll(newPoint)
+        }
+        print(self.i, self.arr.count)
+        print(self.createAudioView.wavedProgressView.translation)
+        print("------------")
     }
     @objc
     func forwardButtonClicked() {
 //      guard audio != nil else { return }
 //      audio?.skip(forwards: true)
+        if Double(audioPlayer!.currentTime + 5) >= Double(audioPlayer!.duration) {
+            self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.duration)
+        } else {
+            self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.currentTime + 5)
+        }
     }
     @objc
     func tapDoneButton() {
@@ -150,6 +177,8 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
                 audioRecorder.updateMeters()
                 let db = audioRecorder.averagePower(forChannel: 0)
                 self.arr.append(CGFloat(db))
+                let audioLenSec = Int(self.audioPlayer?.currentTime ?? 0)
+                self.createAudioView.totalLenLabel.text = "\(audioLenSec / 60) : \(audioLenSec % 60)"
                 self.createAudioView.wavedProgressView.volumes = self.normalizeSoundLevel(level: db)
                 self.createAudioView.wavedProgressView.setNeedsDisplay()
             }
