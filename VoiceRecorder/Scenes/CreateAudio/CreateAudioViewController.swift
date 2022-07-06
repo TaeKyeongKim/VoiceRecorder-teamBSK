@@ -96,11 +96,25 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     func forwardButtonClicked() {
 //      guard audio != nil else { return }
 //      audio?.skip(forwards: true)
+        print("forward------------",self.i)
         if Double(audioPlayer!.currentTime + 5) >= Double(audioPlayer!.duration) {
             self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.duration)
+            timer?.invalidate()
+            self.i = 0
+            self.isPlaying.toggle()
+            self.createAudioView.wavedProgressView.translation = 0
+            self.createAudioView.wavedProgressView.scrollLayer.scroll(self.firstPoint)
         } else {
             self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.currentTime + 5)
+            
+            self.i += 50
+            self.createAudioView.wavedProgressView.translation += 50 * 3
+            let newPoint = CGPoint(x: self.createAudioView.wavedProgressView.translation, y: 0.0)
+            self.createAudioView.wavedProgressView.scrollLayer.scroll(newPoint)
         }
+        print(self.i, self.arr.count)
+        print(self.createAudioView.wavedProgressView.translation)
+        print("------------")
     }
     @objc
     func tapDoneButton() {
