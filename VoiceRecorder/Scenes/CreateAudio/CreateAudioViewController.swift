@@ -28,6 +28,7 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         config()
     }
     
+    
     @objc private func tapRecordingButton() {
         if createAudioView.recordingButton.isSelected{
             bottonsToggle(true)
@@ -198,6 +199,16 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         print("error: \(error.localizedDescription)")
           self.audioRecorder?.stop()
       }
+    }
+    
+    func setTotalPlayTimeLabel(){
+        if let audioRecorder = audioRecorder{
+            audio = Audio(audioRecorder.url)
+            let audioLenSec = Int(audio?.audioLengthSeconds ?? 0)
+            let min = audioLenSec / 60 < 10 ? "0" + String(audioLenSec / 60) : String(audioLenSec / 60)
+            let sec = audioLenSec / 60 < 10 ? "0" + String(audioLenSec % 60) : String(audioLenSec % 60)
+            self.createAudioView.totalLenLabel.text = min + ":" + sec
+        }
     }
     
     func bottonsToggle(_ bool: Bool){
