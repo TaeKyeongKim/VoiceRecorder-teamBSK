@@ -20,6 +20,7 @@ final class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         LoadingIndicator.hideLoading()
+        
     }
     
     override func viewDidLoad() {
@@ -108,9 +109,9 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let data = homeViewModel[indexPath] else {return}
-        LoadingIndicator.showLoading()
         homeViewModel.enquireForURL(data) { url in
             if let url = url {
+                LoadingIndicator.showLoading()
                 let playScene = PlayViewController()
                 playScene.url = url
                 self.navigationController?.pushViewController(playScene, animated: true)

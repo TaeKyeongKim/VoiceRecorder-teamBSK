@@ -12,6 +12,7 @@ final class HomeViewModel {
     private (set) var audioTitles: [String] = []
     private var audioPresentation: [AudioPresentation] = []
     private (set) var audioData: [String: Observable<AudioPresentation>] = [:]
+//    private var networkService: FirebaseService = FirebaseService()
     
     subscript(_ indexPath: IndexPath) -> AudioPresentation? {
         let title = audioTitles[indexPath.item]
@@ -57,7 +58,6 @@ final class HomeViewModel {
     }
     
     func sortByDate() {
-
             self.audioTitles = self.audioTitles.sorted(by: { (val1, val2) in
                 guard let index1 = self.audioPresentation.firstIndex(where: {$0.filename == val1}) else {return false}
                 guard let index2 = self.audioPresentation.firstIndex(where: {$0.filename == val2}) else {return false}
@@ -78,7 +78,7 @@ final class HomeViewModel {
             case .success(let url):
                 completion(url)
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }

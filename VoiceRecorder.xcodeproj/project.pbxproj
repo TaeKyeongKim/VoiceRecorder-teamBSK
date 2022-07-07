@@ -11,6 +11,8 @@
 		B757C3452873C52300606708 /* WaveGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3432873C52300606708 /* WaveGenerator.swift */; };
 		B757C3472873C54D00606708 /* RecordFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3462873C54D00606708 /* RecordFileManager.swift */; };
 		B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3482873F0A400606708 /* CreateAudioView.swift */; };
+		B757C36D2875735700606708 /* WavedProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36C2875735700606708 /* WavedProgressView.swift */; };
+		B757C3702876722000606708 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36F2876722000606708 /* NetworkError.swift */; };
 		B7A56DB12869A4D300EA639D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B7A56DB02869A4D300EA639D /* FirebaseStorage */; };
 		B7A56DCA286B2D0300EA639D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7A56DC9286B2D0300EA639D /* GoogleService-Info.plist */; };
 		B7A56DCD286C1ABF00EA639D /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A56DCC286C1ABE00EA639D /* EndPoint.swift */; };
@@ -41,6 +43,8 @@
 		B757C3432873C52300606708 /* WaveGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveGenerator.swift; sourceTree = "<group>"; };
 		B757C3462873C54D00606708 /* RecordFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordFileManager.swift; sourceTree = "<group>"; };
 		B757C3482873F0A400606708 /* CreateAudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAudioView.swift; sourceTree = "<group>"; };
+		B757C36C2875735700606708 /* WavedProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WavedProgressView.swift; sourceTree = "<group>"; };
+		B757C36F2876722000606708 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		B7A56DC9286B2D0300EA639D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B7A56DCC286C1ABE00EA639D /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		B7A56DCE286C1C6400EA639D /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 				B7A56DCC286C1ABE00EA639D /* EndPoint.swift */,
 				B7A56DCE286C1C6400EA639D /* FirebaseService.swift */,
 				B7AB7E76286EB80B0051095E /* AudioMetadataDTO.swift */,
+				B757C36F2876722000606708 /* NetworkError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 		B7AB7E69286E0F810051095E /* CreateAudio */ = {
 			isa = PBXGroup;
 			children = (
+				B757C36C2875735700606708 /* WavedProgressView.swift */,
 				B757C3482873F0A400606708 /* CreateAudioView.swift */,
 				B7AB7E6A286E0F810051095E /* CreateAudioViewController.swift */,
 			);
@@ -295,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7AB7E39286C88280051095E /* Audio.swift in Sources */,
+				B757C36D2875735700606708 /* WavedProgressView.swift in Sources */,
 				B7AB7E35286C88280051095E /* PlayViewController.swift in Sources */,
 				B7A56DD2286C6C8500EA639D /* HomeTableViewCell.swift in Sources */,
 				B757C3442873C52300606708 /* LoadingIndicator.swift in Sources */,
@@ -312,6 +319,7 @@
 				DE15E65C28604278003DD2F5 /* AppDelegate.swift in Sources */,
 				B7AB7E3D286C92880051095E /* AudioInfo.swift in Sources */,
 				B7AB7E38286C88280051095E /* PlayButtonView.swift in Sources */,
+				B757C3702876722000606708 /* NetworkError.swift in Sources */,
 				B7A56DCD286C1ABF00EA639D /* EndPoint.swift in Sources */,
 				B7AB7E812872BDCF0051095E /* CustomMetaData.swift in Sources */,
 				B7AB7E37286C88280051095E /* PlayView.swift in Sources */,

@@ -9,13 +9,21 @@ import Foundation
 
 import FirebaseStorage
 
+//protocol Firebase {
+//    func fetchAll(completion: @escaping (Result <StorageListResult, StorageError>) -> Void)
+//    func makeURL(endPoint: EndPoint, completion: @escaping (Result <URL, StorageError>) -> Void)
+//    func featchMetaData(endPoint: EndPoint, completion: @escaping (Result <StorageMetadata, StorageError>) -> Void)
+//    func uploadAudio(audio: AudioInfo, completion: @escaping (Result <StorageMetadata, StorageError>) -> Void)
+//    func delete(audio: AudioInfo, completion: @escaping (StorageError?) -> Void)
+//}
+
 enum FirebaseService {
     
     static func fetchAll(completion: @escaping (Result <StorageListResult, Error>) -> Void) {
         
         EndPoint.reference.listAll { result, error in
             if let error = error as? NSError {
-                completion(.failure(error))
+                completion(.failure(NetworkError.firebaseError(error)))
                 return
             }
             guard let result = result else {return}
@@ -29,7 +37,7 @@ enum FirebaseService {
         
         endPoint.path.downloadURL{ url, error in
             if let error = error as? NSError {
-                completion(.failure(error))
+                completion(.failure(NetworkError.firebaseError(error)))
                 return
             }
             guard let url = url else {return}
@@ -46,10 +54,9 @@ enum FirebaseService {
             case .success(let metaData):
                 completion(.success(metaData))
             case .failure(let error):
-                completion(.failure(error))
+                completion(.failure(NetworkError.firebaseError(error as NSError)))
             }
         }
-        
     }
     
     static func uploadAudio(audio: AudioInfo, completion: @escaping (Result <StorageMetadata, Error>) -> Void) {
@@ -61,7 +68,8 @@ enum FirebaseService {
             case .success(let metaData):
                 completion(.success(metaData))
             case .failure(let error):
-                completion(.failure(error))
+                completion(.failure(NetworkError.firebaseError(error as NSError)))
+                
             }
         }
     }
@@ -71,7 +79,7 @@ enum FirebaseService {
         let endPoint = EndPoint(fileName: audio.id)
         endPoint.path.delete { error in
             if let error = error as? NSError {
-                completion(error)
+                completion((NetworkError.firebaseError(error)))
                 return
             }else{
                 completion(nil)
