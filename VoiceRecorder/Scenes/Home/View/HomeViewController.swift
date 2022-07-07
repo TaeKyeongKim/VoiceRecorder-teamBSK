@@ -14,6 +14,7 @@ final class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         LoadingIndicator.showLoading()
         homeViewModel.reset()
+        setFirebaseNetworkErrorHandler()
         setDataBinding()
     }
     
@@ -79,17 +80,26 @@ private extension HomeViewController {
             }
             
             self.homeViewModel.fetchMetaData()
-            self.homeViewModel.audioData.values.forEach({
-                $0.bind { [weak self] metadata in
-                    DispatchQueue.main.async {
-                        guard let filename = metadata.filename, let index = self?.homeViewModel.audioTitles.firstIndex(of: filename) else {return}
-                        self?.homeTableView?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-                    }
-                }})
-        }
+       
         
+        self.homeViewModel.audioData.values.forEach({
+            $0.bind { [weak self] metadata in
+                DispatchQueue.main.async {
+                    guard let filename = metadata.filename, let index = self?.homeViewModel.audioTitles.firstIndex(of: filename) else {return}
+                    self?.homeTableView?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                }
+            }})
+        }
     }
+    
+    func setFirebaseNetworkErrorHandler() {
+        self.homeViewModel.errorHandler = { error in
+            print(error.localizedDescription)
+        }
+    }
+    
 }
+
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -110,12 +120,11 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let data = homeViewModel[indexPath] else {return}
         homeViewModel.enquireForURL(data) { url in
-            if let url = url {
-                LoadingIndicator.showLoading()
-                let playScene = PlayViewController()
-                playScene.url = url
-                self.navigationController?.pushViewController(playScene, animated: true)
-            }
+            LoadingIndicator.showLoading()
+            let playScene = PlayViewController()
+            playScene.url = url
+            self.navigationController?.pushViewController(playScene, animated: true)
+            
         }
     }
     

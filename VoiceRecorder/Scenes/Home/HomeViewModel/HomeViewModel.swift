@@ -12,7 +12,8 @@ final class HomeViewModel {
     private (set) var audioTitles: [String] = []
     private var audioPresentation: [AudioPresentation] = []
     private (set) var audioData: [String: Observable<AudioPresentation>] = [:]
-//    private var networkService: FirebaseService = FirebaseService()
+    //private var networkService: FirebaseService = FirebaseService()
+    var errorHandler : ((Error) -> Void)?
     
     subscript(_ indexPath: IndexPath) -> AudioPresentation? {
         let title = audioTitles[indexPath.item]
@@ -30,7 +31,7 @@ final class HomeViewModel {
                 })
                 completion()
             case .failure(let error):
-                print(error)
+                self?.errorHandler?(error)
             }
         }
     }
@@ -46,7 +47,7 @@ final class HomeViewModel {
                     case .success(let metadata):
                         self?.audioPresentation.append(metadata.toDomain())
                     case .failure(let error):
-                        print(error)
+                        self?.errorHandler?(error)
                     }
                     group.leave()
                 }
@@ -70,7 +71,7 @@ final class HomeViewModel {
 
     }
     
-    func enquireForURL(_ audioRepresentation: AudioPresentation, completion: @escaping (URL?) -> Void) {
+    func enquireForURL(_ audioRepresentation: AudioPresentation, completion: @escaping (URL) -> Void) {
         guard let fileName = audioRepresentation.filename else {return}
         let endPoint = EndPoint(fileName: fileName)
         FirebaseService.makeURL(endPoint: endPoint) { result in
@@ -78,7 +79,7 @@ final class HomeViewModel {
             case .success(let url):
                 completion(url)
             case .failure(let error):
-                print(error.localizedDescription)
+                self.errorHandler?(error)
             }
         }
     }
@@ -90,6 +91,7 @@ final class HomeViewModel {
             if let error = error as? NSError {
                 print(error)
                 completion(false)
+                self?.errorHandler?(error)
             }else{
                 self?.audioTitles.remove(at: indexPath.item)
                 self?.audioPresentation.remove(at: indexPath.item)
