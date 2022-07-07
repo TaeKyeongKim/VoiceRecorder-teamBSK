@@ -18,14 +18,13 @@ final class NetworkMonitor {
     
     func startMonitoring(completion: @escaping (NetworkError) -> Void) {
         monitor.start(queue: .global())
-        monitor.pathUpdateHandler = { path in
+        self.monitor.pathUpdateHandler = { path in
             if path.status == .unsatisfied {
                 completion(.lostConnection)
             }
         }
     }
-    
-    
+
     func stopMonitoring() {
         monitor.cancel()
     }

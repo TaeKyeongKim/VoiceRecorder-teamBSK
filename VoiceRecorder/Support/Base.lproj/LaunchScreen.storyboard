@@ -20,14 +20,24 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="KmS-3H-JkT">
                                 <rect key="frame" x="100" y="144" width="214" height="618"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team BSK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tx3-Bl-t19">
+                                <rect key="frame" x="0.0" y="412" width="414" height="450"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                <color key="textColor" systemColor="systemIndigoColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Tx3-Bl-t19" firstAttribute="top" secondItem="KmS-3H-JkT" secondAttribute="bottom" constant="-350" id="2f1-Lg-ujf"/>
                             <constraint firstItem="KmS-3H-JkT" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Fu6-8l-Gad"/>
                             <constraint firstItem="KmS-3H-JkT" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="JT5-c3-z3o"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="KmS-3H-JkT" secondAttribute="bottom" constant="100" id="Rao-cJ-RB7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Tx3-Bl-t19" secondAttribute="bottom" id="bV2-ni-Gpw"/>
                             <constraint firstItem="KmS-3H-JkT" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="100" id="mE0-NJ-iXz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Tx3-Bl-t19" secondAttribute="trailing" id="nCw-LF-iec"/>
+                            <constraint firstItem="Tx3-Bl-t19" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ovr-Jm-Tpz"/>
                             <constraint firstAttribute="trailing" secondItem="KmS-3H-JkT" secondAttribute="trailing" constant="100" id="zUu-gt-vWD"/>
                         </constraints>
                     </view>
@@ -41,6 +51,9 @@
         <image name="logo" width="640" height="640"/>
         <systemColor name="systemGroupedBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

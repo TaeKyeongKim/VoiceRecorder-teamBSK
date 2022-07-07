@@ -16,12 +16,13 @@ final class HomeViewModel {
     var errorHandler : ((Error) -> Void)?
     
     subscript(_ indexPath: IndexPath) -> AudioPresentation? {
+        guard !audioTitles.isEmpty else {return nil}
         let title = audioTitles[indexPath.item]
         guard let data = audioData[title]?.value else {return nil}
         return data
     }
     
-    func fetchAudioTitles(completion: @escaping () -> Void) {
+    func fetchAudioTitles(completion: @escaping (Bool) -> Void) {
         FirebaseService.fetchAll { [weak self] result in
             switch result {
             case .success(let data):
@@ -29,7 +30,7 @@ final class HomeViewModel {
                     self?.audioTitles.append($0.name)
                     self?.audioData.updateValue(Observable<AudioPresentation>(AudioPresentation(filename: nil, createdDate: nil, length: nil)), forKey: $0.name)
                 })
-                completion()
+                completion(true)
             case .failure(let error):
                 self?.errorHandler?(error)
             }
@@ -71,7 +72,7 @@ final class HomeViewModel {
 
     }
     
-    func enquireForURL(_ audioRepresentation: AudioPresentation, completion: @escaping (URL) -> Void) {
+    func enquireForURL(_ audioRepresentation: AudioPresentation, completion: @escaping (URL?) -> Void) {
         guard let fileName = audioRepresentation.filename else {return}
         let endPoint = EndPoint(fileName: fileName)
         FirebaseService.makeURL(endPoint: endPoint) { result in
