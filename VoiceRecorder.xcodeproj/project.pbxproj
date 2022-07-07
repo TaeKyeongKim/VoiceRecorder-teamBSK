@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65E372322876B02600E2555D /* PlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E372312876B02600E2555D /* PlayViewModel.swift */; };
+		65F61D982875758600FC2C2C /* WavedProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F61D972875758600FC2C2C /* WavedProgressView.swift */; };
 		B757C3442873C52300606708 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3422873C52300606708 /* LoadingIndicator.swift */; };
 		B757C3452873C52300606708 /* WaveGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3432873C52300606708 /* WaveGenerator.swift */; };
 		B757C3472873C54D00606708 /* RecordFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3462873C54D00606708 /* RecordFileManager.swift */; };
@@ -37,6 +39,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65E372312876B02600E2555D /* PlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewModel.swift; sourceTree = "<group>"; };
+		65F61D972875758600FC2C2C /* WavedProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WavedProgressView.swift; sourceTree = "<group>"; };
 		B757C3422873C52300606708 /* LoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		B757C3432873C52300606708 /* WaveGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveGenerator.swift; sourceTree = "<group>"; };
 		B757C3462873C54D00606708 /* RecordFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordFileManager.swift; sourceTree = "<group>"; };
@@ -79,6 +83,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65D613BC2876D670001073B6 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B757C3462873C54D00606708 /* RecordFileManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		65D613BD2876D697001073B6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				65E372312876B02600E2555D /* PlayViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		B7A56DB22869A4F600EA639D /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,12 +121,7 @@
 		B7A56DB52869A51400EA639D /* Play */ = {
 			isa = PBXGroup;
 			children = (
-				B757C3462873C54D00606708 /* RecordFileManager.swift */,
-				B757C3422873C52300606708 /* LoadingIndicator.swift */,
-				B757C3432873C52300606708 /* WaveGenerator.swift */,
-				B7AB7E34286C88280051095E /* Audio.swift */,
-				B7AB7E30286C88280051095E /* Observable.swift */,
-				B7AB7E2F286C88280051095E /* PlayViewController.swift */,
+				65D613BD2876D697001073B6 /* ViewModel */,
 				B7AB7E31286C88280051095E /* View */,
 			);
 			path = Play;
@@ -145,7 +160,11 @@
 		B7A56DD3286C6D1900EA639D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B757C3432873C52300606708 /* WaveGenerator.swift */,
+				B757C3422873C52300606708 /* LoadingIndicator.swift */,
+				B7AB7E30286C88280051095E /* Observable.swift */,
 				B7A56DD4286C6D4100EA639D /* UIFont+.swift */,
+				B7AB7E34286C88280051095E /* Audio.swift */,
 				B7AB7E7A286EC1410051095E /* TimeFormatter.swift */,
 			);
 			path = Common;
@@ -155,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				B7AB7E32286C88280051095E /* PlayView.swift */,
+				B7AB7E2F286C88280051095E /* PlayViewController.swift */,
 				B7AB7E33286C88280051095E /* PlayButtonView.swift */,
 			);
 			path = View;
@@ -173,6 +193,7 @@
 		B7AB7E69286E0F810051095E /* CreateAudio */ = {
 			isa = PBXGroup;
 			children = (
+				65F61D972875758600FC2C2C /* WavedProgressView.swift */,
 				B757C3482873F0A400606708 /* CreateAudioView.swift */,
 				B7AB7E6A286E0F810051095E /* CreateAudioViewController.swift */,
 			);
@@ -206,6 +227,7 @@
 		DE15E65A28604278003DD2F5 /* VoiceRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				65D613BC2876D670001073B6 /* Manager */,
 				B7AB7E3B286C92780051095E /* Entity */,
 				B7A56DD3286C6D1900EA639D /* Common */,
 				B7A56DCB286B327900EA639D /* Network */,
@@ -295,11 +317,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7AB7E39286C88280051095E /* Audio.swift in Sources */,
+				65F61D982875758600FC2C2C /* WavedProgressView.swift in Sources */,
 				B7AB7E35286C88280051095E /* PlayViewController.swift in Sources */,
 				B7A56DD2286C6C8500EA639D /* HomeTableViewCell.swift in Sources */,
 				B757C3442873C52300606708 /* LoadingIndicator.swift in Sources */,
 				B7A56DCF286C1C6400EA639D /* FirebaseService.swift in Sources */,
 				B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */,
+				65E372322876B02600E2555D /* PlayViewModel.swift in Sources */,
 				DE15E66028604278003DD2F5 /* HomeViewController.swift in Sources */,
 				B7AB7E79286EBC7E0051095E /* AudioPresentation.swift in Sources */,
 				B7AB7E36286C88280051095E /* Observable.swift in Sources */,

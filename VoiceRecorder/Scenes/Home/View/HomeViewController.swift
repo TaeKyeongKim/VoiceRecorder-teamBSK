@@ -112,7 +112,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         homeViewModel.enquireForURL(data) { url in
             if let url = url {
                 let playScene = PlayViewController()
-                playScene.url = url
+                playScene.playViewModel.url = url
                 self.navigationController?.pushViewController(playScene, animated: true)
             }
         }
