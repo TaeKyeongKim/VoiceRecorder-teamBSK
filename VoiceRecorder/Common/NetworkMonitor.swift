@@ -16,11 +16,11 @@ final class NetworkMonitor {
     
     let monitor = NWPathMonitor()
     
-    func startMonitoring(completion: @escaping () -> Void) {
+    func startMonitoring(completion: @escaping (NetworkError) -> Void) {
         monitor.start(queue: .global())
         monitor.pathUpdateHandler = { path in
             if path.status == .unsatisfied {
-                completion()
+                completion(.lostConnection)
             }
         }
     }

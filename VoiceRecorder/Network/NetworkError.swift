@@ -11,6 +11,7 @@ import FirebaseStorage
 
 enum NetworkError: Error, LocalizedError {
     case firebaseError(NSError)
+    case lostConnection
     
     var errorDescription: String? {
         let defaultMessage = "앱 을 다시 실행시켜주세요"
@@ -26,6 +27,8 @@ enum NetworkError: Error, LocalizedError {
             default:
                 return defaultMessage
             }
+        case .lostConnection:
+            return "인터넷 연결이 끊겼습니다"
         }
     }
 }
