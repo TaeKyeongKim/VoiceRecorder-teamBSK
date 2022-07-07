@@ -7,25 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B757C3442873C52300606708 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3422873C52300606708 /* LoadingIndicator.swift */; };
-		B757C3452873C52300606708 /* WaveGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3432873C52300606708 /* WaveGenerator.swift */; };
-		B757C3472873C54D00606708 /* RecordFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3462873C54D00606708 /* RecordFileManager.swift */; };
 		B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3482873F0A400606708 /* CreateAudioView.swift */; };
 		B757C36D2875735700606708 /* WavedProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36C2875735700606708 /* WavedProgressView.swift */; };
 		B757C3702876722000606708 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36F2876722000606708 /* NetworkError.swift */; };
 		B757C3722876A66400606708 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3712876A66400606708 /* NetworkMonitor.swift */; };
 		B757C3742876C76D00606708 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3732876C76D00606708 /* Alert.swift */; };
+		B757C38828770A6300606708 /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C38728770A6200606708 /* PlayViewController.swift */; };
+		B757C38B28770A7000606708 /* PlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C38A28770A7000606708 /* PlayViewModel.swift */; };
+		B757C38E28770A7C00606708 /* RecordFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C38D28770A7C00606708 /* RecordFileManager.swift */; };
+		B757C39328770A8F00606708 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C38F28770A8E00606708 /* Audio.swift */; };
+		B757C39428770A8F00606708 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C39028770A8E00606708 /* Observable.swift */; };
+		B757C39528770A8F00606708 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C39128770A8F00606708 /* LoadingIndicator.swift */; };
+		B757C39628770A8F00606708 /* WaveGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C39228770A8F00606708 /* WaveGenerator.swift */; };
 		B7A56DB12869A4D300EA639D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B7A56DB02869A4D300EA639D /* FirebaseStorage */; };
 		B7A56DCA286B2D0300EA639D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7A56DC9286B2D0300EA639D /* GoogleService-Info.plist */; };
 		B7A56DCD286C1ABF00EA639D /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A56DCC286C1ABE00EA639D /* EndPoint.swift */; };
 		B7A56DCF286C1C6400EA639D /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A56DCE286C1C6400EA639D /* FirebaseService.swift */; };
 		B7A56DD2286C6C8500EA639D /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A56DD1286C6C8400EA639D /* HomeTableViewCell.swift */; };
 		B7A56DD5286C6D4100EA639D /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A56DD4286C6D4100EA639D /* UIFont+.swift */; };
-		B7AB7E35286C88280051095E /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB7E2F286C88280051095E /* PlayViewController.swift */; };
-		B7AB7E36286C88280051095E /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB7E30286C88280051095E /* Observable.swift */; };
 		B7AB7E37286C88280051095E /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB7E32286C88280051095E /* PlayView.swift */; };
 		B7AB7E38286C88280051095E /* PlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB7E33286C88280051095E /* PlayButtonView.swift */; };
-		B7AB7E39286C88280051095E /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB7E34286C88280051095E /* Audio.swift */; };
 		B7AB7E3D286C92880051095E /* AudioInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB7E3C286C92880051095E /* AudioInfo.swift */; };
 		B7AB7E6B286E0F810051095E /* CreateAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB7E6A286E0F810051095E /* CreateAudioViewController.swift */; };
 		B7AB7E6E286E0FBF0051095E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AB7E6D286E0FBF0051095E /* HomeViewModel.swift */; };
@@ -41,24 +42,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B757C3422873C52300606708 /* LoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
-		B757C3432873C52300606708 /* WaveGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveGenerator.swift; sourceTree = "<group>"; };
-		B757C3462873C54D00606708 /* RecordFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordFileManager.swift; sourceTree = "<group>"; };
 		B757C3482873F0A400606708 /* CreateAudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAudioView.swift; sourceTree = "<group>"; };
 		B757C36C2875735700606708 /* WavedProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WavedProgressView.swift; sourceTree = "<group>"; };
 		B757C36F2876722000606708 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		B757C3712876A66400606708 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		B757C3732876C76D00606708 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		B757C38728770A6200606708 /* PlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
+		B757C38A28770A7000606708 /* PlayViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayViewModel.swift; sourceTree = "<group>"; };
+		B757C38D28770A7C00606708 /* RecordFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordFileManager.swift; sourceTree = "<group>"; };
+		B757C38F28770A8E00606708 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		B757C39028770A8E00606708 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		B757C39128770A8F00606708 /* LoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		B757C39228770A8F00606708 /* WaveGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveGenerator.swift; sourceTree = "<group>"; };
 		B7A56DC9286B2D0300EA639D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B7A56DCC286C1ABE00EA639D /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		B7A56DCE286C1C6400EA639D /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		B7A56DD1286C6C8400EA639D /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		B7A56DD4286C6D4100EA639D /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
-		B7AB7E2F286C88280051095E /* PlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
-		B7AB7E30286C88280051095E /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		B7AB7E32286C88280051095E /* PlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		B7AB7E33286C88280051095E /* PlayButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButtonView.swift; sourceTree = "<group>"; };
-		B7AB7E34286C88280051095E /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		B7AB7E3C286C92880051095E /* AudioInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioInfo.swift; sourceTree = "<group>"; };
 		B7AB7E6A286E0F810051095E /* CreateAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAudioViewController.swift; sourceTree = "<group>"; };
 		B7AB7E6D286E0FBF0051095E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -87,6 +89,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B757C38928770A7000606708 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B757C38A28770A7000606708 /* PlayViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B757C38C28770A7C00606708 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B757C38D28770A7C00606708 /* RecordFileManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		B7A56DB22869A4F600EA639D /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,12 +127,7 @@
 		B7A56DB52869A51400EA639D /* Play */ = {
 			isa = PBXGroup;
 			children = (
-				B757C3462873C54D00606708 /* RecordFileManager.swift */,
-				B757C3422873C52300606708 /* LoadingIndicator.swift */,
-				B757C3432873C52300606708 /* WaveGenerator.swift */,
-				B7AB7E34286C88280051095E /* Audio.swift */,
-				B7AB7E30286C88280051095E /* Observable.swift */,
-				B7AB7E2F286C88280051095E /* PlayViewController.swift */,
+				B757C38928770A7000606708 /* ViewModel */,
 				B7AB7E31286C88280051095E /* View */,
 			);
 			path = Play;
@@ -154,6 +167,10 @@
 		B7A56DD3286C6D1900EA639D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B757C38F28770A8E00606708 /* Audio.swift */,
+				B757C39128770A8F00606708 /* LoadingIndicator.swift */,
+				B757C39028770A8E00606708 /* Observable.swift */,
+				B757C39228770A8F00606708 /* WaveGenerator.swift */,
 				B7A56DD4286C6D4100EA639D /* UIFont+.swift */,
 				B7AB7E7A286EC1410051095E /* TimeFormatter.swift */,
 				B757C3712876A66400606708 /* NetworkMonitor.swift */,
@@ -165,6 +182,7 @@
 		B7AB7E31286C88280051095E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B757C38728770A6200606708 /* PlayViewController.swift */,
 				B7AB7E32286C88280051095E /* PlayView.swift */,
 				B7AB7E33286C88280051095E /* PlayButtonView.swift */,
 			);
@@ -218,6 +236,7 @@
 		DE15E65A28604278003DD2F5 /* VoiceRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				B757C38C28770A7C00606708 /* Manager */,
 				B7AB7E3B286C92780051095E /* Entity */,
 				B7A56DD3286C6D1900EA639D /* Common */,
 				B7A56DCB286B327900EA639D /* Network */,
@@ -306,24 +325,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7AB7E39286C88280051095E /* Audio.swift in Sources */,
+				B757C39528770A8F00606708 /* LoadingIndicator.swift in Sources */,
+				B757C39428770A8F00606708 /* Observable.swift in Sources */,
 				B757C36D2875735700606708 /* WavedProgressView.swift in Sources */,
-				B7AB7E35286C88280051095E /* PlayViewController.swift in Sources */,
 				B7A56DD2286C6C8500EA639D /* HomeTableViewCell.swift in Sources */,
-				B757C3442873C52300606708 /* LoadingIndicator.swift in Sources */,
+				B757C38B28770A7000606708 /* PlayViewModel.swift in Sources */,
 				B7A56DCF286C1C6400EA639D /* FirebaseService.swift in Sources */,
 				B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */,
+				B757C38828770A6300606708 /* PlayViewController.swift in Sources */,
 				DE15E66028604278003DD2F5 /* HomeViewController.swift in Sources */,
 				B7AB7E79286EBC7E0051095E /* AudioPresentation.swift in Sources */,
 				B757C3742876C76D00606708 /* Alert.swift in Sources */,
 				B757C3722876A66400606708 /* NetworkMonitor.swift in Sources */,
-				B7AB7E36286C88280051095E /* Observable.swift in Sources */,
-				B757C3472873C54D00606708 /* RecordFileManager.swift in Sources */,
 				B7A56DD5286C6D4100EA639D /* UIFont+.swift in Sources */,
 				B7AB7E77286EB80B0051095E /* AudioMetadataDTO.swift in Sources */,
+				B757C38E28770A7C00606708 /* RecordFileManager.swift in Sources */,
 				B7AB7E7B286EC1410051095E /* TimeFormatter.swift in Sources */,
+				B757C39628770A8F00606708 /* WaveGenerator.swift in Sources */,
+				B757C39328770A8F00606708 /* Audio.swift in Sources */,
 				B7AB7E6B286E0F810051095E /* CreateAudioViewController.swift in Sources */,
-				B757C3452873C52300606708 /* WaveGenerator.swift in Sources */,
 				DE15E65C28604278003DD2F5 /* AppDelegate.swift in Sources */,
 				B7AB7E3D286C92880051095E /* AudioInfo.swift in Sources */,
 				B7AB7E38286C88280051095E /* PlayButtonView.swift in Sources */,
