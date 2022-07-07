@@ -13,6 +13,7 @@
 		B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3482873F0A400606708 /* CreateAudioView.swift */; };
 		B757C36D2875735700606708 /* WavedProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36C2875735700606708 /* WavedProgressView.swift */; };
 		B757C3702876722000606708 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36F2876722000606708 /* NetworkError.swift */; };
+		B757C3722876A66400606708 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3712876A66400606708 /* NetworkMonitor.swift */; };
 		B7A56DB12869A4D300EA639D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B7A56DB02869A4D300EA639D /* FirebaseStorage */; };
 		B7A56DCA286B2D0300EA639D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7A56DC9286B2D0300EA639D /* GoogleService-Info.plist */; };
 		B7A56DCD286C1ABF00EA639D /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A56DCC286C1ABE00EA639D /* EndPoint.swift */; };
@@ -45,6 +46,7 @@
 		B757C3482873F0A400606708 /* CreateAudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAudioView.swift; sourceTree = "<group>"; };
 		B757C36C2875735700606708 /* WavedProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WavedProgressView.swift; sourceTree = "<group>"; };
 		B757C36F2876722000606708 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		B757C3712876A66400606708 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		B7A56DC9286B2D0300EA639D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B7A56DCC286C1ABE00EA639D /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		B7A56DCE286C1C6400EA639D /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			children = (
 				B7A56DD4286C6D4100EA639D /* UIFont+.swift */,
 				B7AB7E7A286EC1410051095E /* TimeFormatter.swift */,
+				B757C3712876A66400606708 /* NetworkMonitor.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */,
 				DE15E66028604278003DD2F5 /* HomeViewController.swift in Sources */,
 				B7AB7E79286EBC7E0051095E /* AudioPresentation.swift in Sources */,
+				B757C3722876A66400606708 /* NetworkMonitor.swift in Sources */,
 				B7AB7E36286C88280051095E /* Observable.swift in Sources */,
 				B757C3472873C54D00606708 /* RecordFileManager.swift in Sources */,
 				B7A56DD5286C6D4100EA639D /* UIFont+.swift in Sources */,
