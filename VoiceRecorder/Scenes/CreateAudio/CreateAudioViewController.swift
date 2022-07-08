@@ -13,6 +13,7 @@ import FirebaseStorage
 
 class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
 
+    private var networkService: NetworkServiceable = Firebase()
     let createAudioView = CreateAudioView()
     var audio: Audio?
     var timer: Timer?
@@ -225,16 +226,15 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         storageMetadata.customMetadata = customData.toDict()
         storageMetadata.contentType = "audio/mpeg"
         let audioInfo = AudioInfo(id: UUID().uuidString, data: data, metadata: storageMetadata)
-        FirebaseService.uploadAudio(audio: audioInfo) { result in
-            switch result {
-            case .success(_):
-                self.navigationController?.popViewController(animated: true)
-            case .failure(let error):
+        networkService.uploadAudio(audio: audioInfo) { error in
+            if error != nil {
                 print("firebase err: \(error)")
                 self.navigationController?.popViewController(animated: true) // 수정 필요
             }
+            self.navigationController?.popViewController(animated: true)
         }
     }
+    
     private func normalizeSoundLevel(level: Float) -> CGFloat {
         let lowLevel: Float = -50
         let highLevel: Float = -10
