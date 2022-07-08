@@ -10,7 +10,7 @@ import Network
 
 final class NetworkMonitor {
     
-    static var shared = NetworkMonitor()
+    static let shared = NetworkMonitor()
     
     private init () {}
     
