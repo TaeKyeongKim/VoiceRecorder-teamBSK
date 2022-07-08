@@ -53,7 +53,7 @@ final class HomeTableViewCell: UITableViewCell {
     
     func configure(model: AudioPresentation?) {
         guard let model = model, let date = model.createdDate else{return}
-        title.text = MyDateFormatter.shared.calendarDateString(from: date)
+        title.text = MyDateFormatter.shared.dateToString(from: date)
         self.length.text = model.length ?? ""
     }
     

@@ -37,7 +37,6 @@ struct Firebase: NetworkServiceable {
     }
     
     func makeURL(endPoint: EndPoint, completion: @escaping (Result <URL, Error>) -> Void)  {
-        
         endPoint.path.downloadURL{ url, error in
             if let error = error as? NSError {
                 completion(.failure(NetworkError.firebaseError(error)))
@@ -51,7 +50,6 @@ struct Firebase: NetworkServiceable {
     
     
     func featchMetaData(endPoint: EndPoint, completion: @escaping (Result <AudioPresentation, Error>) -> Void) {
-        
         endPoint.path.getMetadata { result in
             switch result {
             case .success(let metaData):
@@ -63,7 +61,6 @@ struct Firebase: NetworkServiceable {
     }
     
     func uploadAudio(audio: AudioInfo, completion: @escaping (Error?) -> Void) {
-        
         let endPoint = EndPoint(fileName: audio.id)
         guard let data = audio.data, let metadata = audio.metadata else {return}
         endPoint.path.putData(data, metadata: metadata){ result in
@@ -77,7 +74,6 @@ struct Firebase: NetworkServiceable {
     }
     
     func delete(audio: AudioInfo, completion: @escaping (Error?) -> Void) {
-        
         let endPoint = EndPoint(fileName: audio.id)
         endPoint.path.delete { error in
             if let error = error as? NSError {

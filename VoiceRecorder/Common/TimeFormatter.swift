@@ -13,14 +13,14 @@ class MyDateFormatter {
 
     private init() {}
 
-    private let calendarDateFormatter: DateFormatter = {
+    private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormatter
     }()
 
-    func calendarDateString(from date: Date) -> String {
-        calendarDateFormatter.string(from: date)
+    func dateToString(from date: Date) -> String {
+        dateFormatter.string(from: date)
     }
 
 }

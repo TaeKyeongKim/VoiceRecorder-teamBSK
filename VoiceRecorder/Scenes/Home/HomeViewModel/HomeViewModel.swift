@@ -8,11 +8,16 @@
 import Foundation
 
 final class HomeViewModel {
-    
+
     private (set) var audioTitles: [String] = [] {
         didSet{
             self.audioTitles.forEach({
-                self.audioData.updateValue(Observable<AudioPresentation>(AudioPresentation(filename: nil, createdDate: nil, length: nil)), forKey: $0)
+                self.audioData.updateValue(
+                    Observable<AudioPresentation>(
+                        AudioPresentation(
+                            filename: nil,
+                            createdDate: nil,
+                            length: nil)),forKey: $0)
             })
         }
     }
@@ -69,18 +74,27 @@ final class HomeViewModel {
     
     func sortByDate() {
             self.audioTitles = self.audioTitles.sorted(by: { (val1, val2) in
-                guard let index1 = self.audioPresentation.firstIndex(where: {$0.filename == val1}) else {return false}
-                guard let index2 = self.audioPresentation.firstIndex(where: {$0.filename == val2}) else {return false}
-                return self.audioPresentation[index1].createdDate?.compare(self.audioPresentation[index2].createdDate ?? Date()) == .orderedDescending
+                guard let index1 = self.audioPresentation.firstIndex(where: {$0.filename == val1})
+                else {
+                    return false
+                }
+                guard let index2 = self.audioPresentation.firstIndex(where: {$0.filename == val2})
+                else {
+                    return false
+                }
+                return self.audioPresentation[index1].createdDate?.compare(
+                    self.audioPresentation[index2].createdDate ?? Date()) == .orderedDescending
             })
             self.audioTitles.forEach({ title in
-                guard let index = audioPresentation.firstIndex(where: {$0.filename == title})  else {return}
+                guard let index = audioPresentation.firstIndex(
+                    where: {$0.filename == title})  else {return}
                 self.audioData[title]?.value = audioPresentation[index]
             })
-
     }
     
-    func enquireForURL(_ audioRepresentation: AudioPresentation, completion: @escaping (URL?) -> Void) {
+    func enquireForURL(
+        _ audioRepresentation: AudioPresentation,
+        completion: @escaping (URL?) -> Void) {
         guard let fileName = audioRepresentation.filename else {return}
         let endPoint = EndPoint(fileName: fileName)
         networkService.makeURL(endPoint: endPoint) { result in
