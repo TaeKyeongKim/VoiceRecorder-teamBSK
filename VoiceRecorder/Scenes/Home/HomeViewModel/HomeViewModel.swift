@@ -22,7 +22,7 @@ final class HomeViewModel {
         return data
     }
     
-    func fetchAudioTitles(completion: @escaping (Bool) -> Void) {
+    func fetchAudioTitles(completion: @escaping () -> Void) {
         FirebaseService.fetchAll { [weak self] result in
             switch result {
             case .success(let data):
@@ -30,14 +30,14 @@ final class HomeViewModel {
                     self?.audioTitles.append($0.name)
                     self?.audioData.updateValue(Observable<AudioPresentation>(AudioPresentation(filename: nil, createdDate: nil, length: nil)), forKey: $0.name)
                 })
-                completion(true)
+                completion()
             case .failure(let error):
                 self?.errorHandler?(error)
             }
         }
     }
     
-    func fetchMetaData(){
+    func fetchMetaData(completion: @escaping () -> Void){
         let group = DispatchGroup()
         DispatchQueue.global().async {
             self.audioTitles.forEach({
@@ -55,6 +55,7 @@ final class HomeViewModel {
             })
             group.notify(queue: .main) {
                 self.sortByDate()
+                completion()
             }
         }
     }

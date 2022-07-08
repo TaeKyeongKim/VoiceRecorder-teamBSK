@@ -15,7 +15,7 @@ final class HomeViewController: UIViewController {
         LoadingIndicator.showLoading()
         homeViewModel.reset()
         setFirebaseNetworkErrorHandler()
-        setDataBinding()
+        setData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,7 +59,7 @@ private extension HomeViewController {
     
     @objc func pullToRefresh(_ sender: Any) {
         homeViewModel.reset()
-        setDataBinding()
+        setData()
         homeTableView?.refreshControl?.endRefreshing()
     }
     
@@ -74,24 +74,24 @@ private extension HomeViewController {
         ])
     }
     
-    func setDataBinding() {
+    func setData() {
         let group = DispatchGroup()
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] in
             group.enter()
-            self.homeViewModel.fetchAudioTitles { isSucceed in
-                if isSucceed{
-                    group.leave()
-                }
+            self?.homeViewModel.fetchAudioTitles {
+                group.leave()
             }
             group.wait()
-            
             DispatchQueue.main.async {
-                self.homeTableView?.reloadData()
+                self?.homeTableView?.reloadData()
             }
-            
-            self.homeViewModel.fetchMetaData()
-       
-        
+            self?.homeViewModel.fetchMetaData{
+                self?.bindData()
+            }
+        }
+    }
+    
+    func bindData() {
         self.homeViewModel.audioData.values.forEach({
             $0.bind { [weak self] metadata in
                 DispatchQueue.main.async {
@@ -99,7 +99,6 @@ private extension HomeViewController {
                     self?.homeTableView?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                 }
             }})
-        }
     }
     
     func setFirebaseNetworkErrorHandler() {
