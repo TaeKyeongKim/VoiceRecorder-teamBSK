@@ -11,7 +11,6 @@ import AVFoundation
 
 struct AudioRecorderTime {
   let currTimeText: String
-
   static let zero: AudioRecorderTime = .init(currTime: 0)
     
   init(currTime: Int) {
@@ -57,6 +56,9 @@ class AudioRecorder{
             print("error: \(error.localizedDescription)")
         }
     }
+    func pause(){
+        displayLink?.isPaused = false
+    }
     private func setupDisplayLink() {
       displayLink = CADisplayLink(
         target: self,
@@ -69,8 +71,5 @@ class AudioRecorder{
     private func updateCurrTime() {
         let time = Int(audioRecorder.currentTime)
         currTime.value = AudioRecorderTime(currTime: time)
-    }
-    func pause(){
-        displayLink?.isPaused = false
     }
 }
