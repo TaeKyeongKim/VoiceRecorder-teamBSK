@@ -11,15 +11,8 @@ import UIKit
 
 class WavedProgressView: UIView {
 
-//    var lineLayerinit: CAShapeLayer = {
-//        let ca = CAShapeLayer()
-//        ca.lineWidth = 0.5
-//        ca.backgroundColor = UIColor.systemBlue.cgColor
-//        ca.strokeColor = UIColor.systemBlue.cgColor
-//        return ca
-//    }()
     var lineMargin:CGFloat = 2.0
-    lazy var xOffset: CGFloat = 0//64
+    lazy var xOffset: CGFloat = 0
     lazy var translation: CGFloat = 0
     var lineWidth:CGFloat = 1.0
     lazy var volumes:CGFloat = 0.0 {
@@ -62,5 +55,8 @@ class WavedProgressView: UIView {
         scrollLayer.scroll(newPoint)
         translation += 3
     }
+  
+  func removeLayer() {
+    scrollLayer.sublayers?.removeAll()
+  }
 }
-

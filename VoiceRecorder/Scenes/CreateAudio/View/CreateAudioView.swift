@@ -36,6 +36,13 @@ class CreateAudioView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    lazy var currTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     lazy var recordingButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.systemBlue, for: .normal)
@@ -58,6 +65,7 @@ class CreateAudioView: UIView {
         self.addSubview(recordingButton)
         self.addSubview(buttons)
         self.addSubview(totalLenLabel)
+        self.addSubview(currTimeLabel)
         wavedProgressView.addSubview(line)
         NSLayoutConstraint.activate([
             wavedProgressView.topAnchor.constraint(equalTo: self.topAnchor, constant: 50),
@@ -70,6 +78,11 @@ class CreateAudioView: UIView {
             line.bottomAnchor.constraint(equalTo: wavedProgressView.bottomAnchor),
             line.widthAnchor.constraint(equalToConstant: 3),
             line.centerXAnchor.constraint(equalTo: wavedProgressView.centerXAnchor),
+            
+            currTimeLabel.topAnchor.constraint(equalTo: wavedProgressView.bottomAnchor, constant: 30),
+            currTimeLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            currTimeLabel.heightAnchor.constraint(equalToConstant: 50),
+            currTimeLabel.widthAnchor.constraint(equalToConstant: 200),
 
             totalLenLabel.topAnchor.constraint(equalTo: wavedProgressView.bottomAnchor, constant: 30),
             totalLenLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),

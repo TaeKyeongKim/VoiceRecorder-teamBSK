@@ -12,15 +12,14 @@ import AVFoundation
 import FirebaseStorage
 
 class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
-
     let createAudioView = CreateAudioView()
+    let createAudioViewModel = CreateAudioViewModel()
     private var networkService: NetworkServiceable = Firebase()
     
-    var audioRecorder: AVAudioRecorder?
     var audioPlayer: AVAudioPlayer?
     var timer: Timer?
     
-    var arr: [CGFloat] = []
+    var averagePowerList: [CGFloat] = []
     var index: Int = 0
     var isPlaying = false
     let firstPoint = CGPoint(x: 0.0, y: 0.0)
@@ -30,6 +29,9 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         setNavigationItems()
         setConstraint()
         setButtonsTarget()
+        createAudioViewModel.setAudioRecorder()
+        createAudioViewModel.setData()
+        bind()
     }
     func setNavigationItems(){
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(tapCancel))
@@ -67,43 +69,23 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
           action: #selector(forwardButtonClicked),
           for: .touchUpInside
         )
-        createAudioView.doneButton.addTarget(
-          self,
-          action: #selector(tapDoneButton),
-          for: .touchUpInside
-        )
     }
-    func bottonsToggle(_ bool: Bool){
-        createAudioView.recordingButton.isSelected = !bool
-        createAudioView.doneButton.isEnabled = bool
-        createAudioView.buttons.playButton.isEnabled = bool
-        createAudioView.buttons.backButton.isEnabled = bool
-        createAudioView.buttons.forwordButton.isEnabled = bool
+    func bottonsToggleWhenRecording(_ bool: Bool){
+        self.createAudioView.recordingButton.isSelected = !bool
+        self.createAudioView.buttons.playButton.isEnabled = bool
+        self.createAudioView.currTimeLabel.isHidden = bool
+        self.createAudioView.totalLenLabel.isHidden = !bool
+        self.navigationItem.rightBarButtonItem?.isEnabled = bool
+    }
+    func backForwardButtonToggle(_ bool: Bool){
+        self.createAudioView.buttons.backButton.isEnabled = bool
+        self.createAudioView.buttons.forwordButton.isEnabled = bool
     }
     func startRecording() {
-        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("fileName.m4a")
-        let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                        AVSampleRateKey: 44100,
-                        AVNumberOfChannelsKey: 1,
-                        AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
-      
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playAndRecord)
-        } catch {
-            print("error: \(error.localizedDescription)")
-        }
-      
-        do {
-            self.audioRecorder = try AVAudioRecorder(url: fileURL, settings: settings)
-            self.audioRecorder?.delegate = self
-            self.audioRecorder?.isMeteringEnabled = true
-            self.audioRecorder?.record()
-            self.setWavedProgress()
-        } catch {
-            print("error: \(error.localizedDescription)")
-            self.audioRecorder?.stop()
-        }
+        createAudioViewModel.audioRecorder?.audioRecorder.delegate = self
+        createAudioViewModel.audioRecorder?.audioRecorder.isMeteringEnabled = true
+        createAudioViewModel.audioRecorder?.audioRecorder.record()
+        self.setWavedProgress()
     }
     func scrollWavedProgressView(translation: CGFloat, point: CGPoint){
         self.createAudioView.wavedProgressView.translation = translation
@@ -111,10 +93,10 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     }
     func setWavedProgress(){
         self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-            if let audioRecorder = self.audioRecorder{
+            if let audioRecorder = self.createAudioViewModel.audioRecorder?.audioRecorder{
                 audioRecorder.updateMeters()
                 let db = audioRecorder.averagePower(forChannel: 0)
-                self.arr.append(CGFloat(db))
+                self.averagePowerList.append(CGFloat(db))
                 self.createAudioView.wavedProgressView.volumes = self.normalizeSoundLevel(level: db)
                 self.createAudioView.wavedProgressView.setNeedsDisplay()
             }
@@ -128,32 +110,17 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         return CGFloat(Float(level / (highLevel - lowLevel)))
     }
     func setTotalPlayTimeLabel(){
-        if audioRecorder != nil{
+        if createAudioViewModel.audioRecorder?.audioRecorder != nil{
             let audioLenSec = Int(audioPlayer!.duration)
             let min = audioLenSec / 60 < 10 ? "0" + String(audioLenSec / 60) : String(audioLenSec / 60)
             let sec = audioLenSec % 60 < 10 ? "0" + String(audioLenSec % 60) : String(audioLenSec % 60)
             self.createAudioView.totalLenLabel.text = min + ":" + sec
         }
-        self.createAudioView.totalLenLabel.isHidden = false
-    }
-    func uploadDataToStorage(data: Data){
-        let customData = CustomMetadata(length: createAudioView.totalLenLabel.text ?? "00:00")
-        let storageMetadata = StorageMetadata()
-        storageMetadata.customMetadata = customData.toDict()
-        storageMetadata.contentType = "audio/mpeg"
-        let audioInfo = AudioInfo(id: UUID().uuidString, data: data, metadata: storageMetadata)
-        networkService.uploadAudio(audio: audioInfo) { error in
-            if error != nil {
-                print("firebase err: \(String(describing: error))")
-                self.navigationController?.popViewController(animated: true) // 수정 필요
-            }
-            self.navigationController?.popViewController(animated: true)
-        }
     }
     
     func initAudioPlayer() {
         do {
-            try audioPlayer = AVAudioPlayer(contentsOf: audioRecorder!.url)
+            try audioPlayer = AVAudioPlayer(contentsOf: (createAudioViewModel.audioRecorder?.audioRecorder.url)!)
         } catch {
             print("error: \(error.localizedDescription)")
         }
@@ -165,45 +132,49 @@ extension CreateAudioViewController{
         self.navigationController?.popViewController(animated: true)
     }
     @objc private func tapRecordingButton() {
-        if createAudioView.recordingButton.isSelected{
+      if createAudioView.recordingButton.isSelected {
             timer?.invalidate()
-            audioRecorder?.stop()
-            self.bottonsToggle(true)
+            createAudioViewModel.audioRecorder?.audioRecorder.stop()
             self.initAudioPlayer()
             self.setTotalPlayTimeLabel()
+            self.bottonsToggleWhenRecording(true)
             self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
         }else{
-            self.arr = []
-//            createAudioView.wavedProgressView.draw // 1. view reload 안됨
-//            createAudioView.wavedProgressView.lineLayer
-            createAudioView.wavedProgressView.xOffset = self.view.center.x / 3 - 1
-            self.bottonsToggle(false)
-            self.startRecording()
+          if !averagePowerList.isEmpty {
+            createAudioView.wavedProgressView.removeLayer()
+            self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
+          }
+          self.averagePowerList = []
+          createAudioView.wavedProgressView.xOffset = self.view.center.x / 3 - 1
+          self.bottonsToggleWhenRecording(false)
+          self.startRecording()
         }
     }
     @objc
     private func playButtonClicked() {
         if isPlaying == true{
-            createAudioView.buttons.playButton.isSelected = false
             createAudioView.recordingButton.isEnabled = true
+            createAudioView.buttons.playButton.isSelected = false
+            backForwardButtonToggle(false)
             timer?.invalidate()
             audioPlayer?.pause()
         }else{
-            createAudioView.buttons.playButton.isSelected = true
+            backForwardButtonToggle(true)
             createAudioView.recordingButton.isEnabled = false
+            createAudioView.buttons.playButton.isSelected = true
             audioPlayer?.delegate = self
             audioPlayer?.play()
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-                if self.arr.count > self.index{
+                if self.averagePowerList.count > self.index{
                     self.index += 1
                     self.createAudioView.wavedProgressView.scrollLayerScroll()
                 }else{
                     timer.invalidate()
                     self.index = 0
                     self.isPlaying.toggle()
-                    self.createAudioView.buttons.playButton.isSelected = false
+                    self.backForwardButtonToggle(false)
                     self.createAudioView.recordingButton.isEnabled = true
+                    self.createAudioView.buttons.playButton.isSelected = false
                     self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
                 }
             }
@@ -226,12 +197,12 @@ extension CreateAudioViewController{
     @objc
     func forwardButtonClicked() {
         if Double(audioPlayer!.currentTime + 5) >= Double(audioPlayer!.duration) {
-            self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.duration)
             timer?.invalidate()
+            self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.duration)
             self.index = 0
             self.isPlaying.toggle()
-            self.createAudioView.buttons.playButton.isSelected = false
             self.createAudioView.recordingButton.isEnabled = true
+            createAudioView.buttons.playButton.isSelected = false
             self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
         } else {
             self.audioPlayer?.currentTime = TimeInterval(audioPlayer!.currentTime + 5)
@@ -242,40 +213,25 @@ extension CreateAudioViewController{
     }
     @objc
     func tapDoneButton() {
-        guard let audioRecorder = audioRecorder else {
-            Alert.present(title: nil,
-                          message: "녹음을 진행하지 않았습니다.",
-                          actions: .ok(nil),
-                          from: self)
-            self.navigationController?.popViewController(animated: true)
-            return
-        }
+        audioPlayer?.stop()
+        guard let audioRecorder = createAudioViewModel.audioRecorder?.audioRecorder else { return }
         do {
             let data = try Data(contentsOf: audioRecorder.url)
-            uploadDataToStorage(data: data)
-            audioPlayer?.stop()
+            let lengthOfAudio = createAudioView.totalLenLabel.text ?? "00:00"
+            createAudioViewModel.uploadDataToStorage(lengthOfAudio: lengthOfAudio, data: data) { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
         } catch {
             print("error: \(error.localizedDescription)")
-            audioPlayer?.stop()
-            self.navigationController?.popViewController(animated: true) // 수정 필요
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }
 
-
-//        self.vm.averagePowerList.bind { list in
-//            self.createAudioView.wavedProgressView.volumes = self.normalizeSoundLevel(level: db)
-//            self.createAudioView.wavedProgressView.setNeedsDisplay()
-//        }
-
-
-//        AVFAudio.AVAudioEngine.audioUnit.AVAudioUnit.AVAudioUnitEQFilterParameters.frequency
-//        let a = AVAudioEngine()
-//        let eq = AVAudioUnitEQ(numberOfBands: 1)
-//        let filterParams = eq.bands[0] as AVAudioUnitEQFilterParameters
-//        filterParams.filterType = .lowPass
-//        filterParams.frequency = 100.0
-//        filterParams.bypass = false
-//        a.attach(eq)
-
-
+extension CreateAudioViewController{
+    func bind(){
+        createAudioViewModel.currTime.bind { time in
+            self.createAudioView.currTimeLabel.text = time.currTimeText
+        }
+    }
+}
