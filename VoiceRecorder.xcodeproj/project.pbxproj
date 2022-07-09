@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7C4E6FC928794239002EC5E3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7C4E6FC828794239002EC5E3 /* FirebaseStorage */; };
+		7C4E6FCE28795E7C002EC5E3 /* CreateAudioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4E6FCD28795E7C002EC5E3 /* CreateAudioViewModel.swift */; };
+		7C4E6FD2287967FC002EC5E3 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4E6FD1287967FC002EC5E3 /* AudioRecorder.swift */; };
 		B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3482873F0A400606708 /* CreateAudioView.swift */; };
 		B757C36D2875735700606708 /* WavedProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36C2875735700606708 /* WavedProgressView.swift */; };
 		B757C3702876722000606708 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36F2876722000606708 /* NetworkError.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C4E6FCD28795E7C002EC5E3 /* CreateAudioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAudioViewModel.swift; sourceTree = "<group>"; };
+		7C4E6FD1287967FC002EC5E3 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		B757C3482873F0A400606708 /* CreateAudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAudioView.swift; sourceTree = "<group>"; };
 		B757C36C2875735700606708 /* WavedProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WavedProgressView.swift; sourceTree = "<group>"; };
 		B757C36F2876722000606708 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -89,6 +93,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C4E6FCC28795E6E002EC5E3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B757C36C2875735700606708 /* WavedProgressView.swift */,
+				B757C3482873F0A400606708 /* CreateAudioView.swift */,
+				B7AB7E6A286E0F810051095E /* CreateAudioViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7C4E6FCF28795E80002EC5E3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7C4E6FCD28795E7C002EC5E3 /* CreateAudioViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		B757C38928770A7000606708 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,9 +224,9 @@
 		B7AB7E69286E0F810051095E /* CreateAudio */ = {
 			isa = PBXGroup;
 			children = (
-				B757C36C2875735700606708 /* WavedProgressView.swift */,
-				B757C3482873F0A400606708 /* CreateAudioView.swift */,
-				B7AB7E6A286E0F810051095E /* CreateAudioViewController.swift */,
+				7C4E6FCF28795E80002EC5E3 /* ViewModel */,
+				7C4E6FCC28795E6E002EC5E3 /* View */,
+				7C4E6FD1287967FC002EC5E3 /* AudioRecorder.swift */,
 			);
 			path = CreateAudio;
 			sourceTree = "<group>";
@@ -330,6 +352,7 @@
 				B757C36D2875735700606708 /* WavedProgressView.swift in Sources */,
 				B7A56DD2286C6C8500EA639D /* HomeTableViewCell.swift in Sources */,
 				B757C38B28770A7000606708 /* PlayViewModel.swift in Sources */,
+				7C4E6FCE28795E7C002EC5E3 /* CreateAudioViewModel.swift in Sources */,
 				B7A56DCF286C1C6400EA639D /* FirebaseService.swift in Sources */,
 				B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */,
 				B757C38828770A6300606708 /* PlayViewController.swift in Sources */,
@@ -341,6 +364,7 @@
 				B7AB7E77286EB80B0051095E /* AudioMetadataDTO.swift in Sources */,
 				B757C38E28770A7C00606708 /* RecordFileManager.swift in Sources */,
 				B7AB7E7B286EC1410051095E /* TimeFormatter.swift in Sources */,
+				7C4E6FD2287967FC002EC5E3 /* AudioRecorder.swift in Sources */,
 				B757C39628770A8F00606708 /* WaveGenerator.swift in Sources */,
 				B757C39328770A8F00606708 /* Audio.swift in Sources */,
 				B7AB7E6B286E0F810051095E /* CreateAudioViewController.swift in Sources */,

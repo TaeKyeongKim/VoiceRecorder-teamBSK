@@ -12,15 +12,14 @@ import AVFoundation
 import FirebaseStorage
 
 class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
-
     let createAudioView = CreateAudioView()
+    let createAudioViewModel = CreateAudioViewModel()
     private var networkService: NetworkServiceable = Firebase()
     
-    var audioRecorder: AVAudioRecorder?
     var audioPlayer: AVAudioPlayer?
     var timer: Timer?
     
-    var arr: [CGFloat] = []
+    var averagePowerList: [CGFloat] = []
     var index: Int = 0
     var isPlaying = false
     let firstPoint = CGPoint(x: 0.0, y: 0.0)
@@ -30,6 +29,9 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         setNavigationItems()
         setConstraint()
         setButtonsTarget()
+        createAudioViewModel.setAudioRecorder()
+        createAudioViewModel.setData()
+        bind()
     }
     func setNavigationItems(){
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(tapCancel))
@@ -75,29 +77,10 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         createAudioView.buttons.forwordButton.isEnabled = bool
     }
     func startRecording() {
-        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("fileName.m4a")
-        let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                        AVSampleRateKey: 44100,
-                        AVNumberOfChannelsKey: 1,
-                        AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
-      
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playAndRecord)
-        } catch {
-            print("error: \(error.localizedDescription)")
-        }
-      
-        do {
-            self.audioRecorder = try AVAudioRecorder(url: fileURL, settings: settings)
-            self.audioRecorder?.delegate = self
-            self.audioRecorder?.isMeteringEnabled = true
-            self.audioRecorder?.record()
-            self.setWavedProgress()
-        } catch {
-            print("error: \(error.localizedDescription)")
-            self.audioRecorder?.stop()
-        }
+        createAudioViewModel.audioRecorder?.audioRecorder.delegate = self
+        createAudioViewModel.audioRecorder?.audioRecorder.isMeteringEnabled = true
+        createAudioViewModel.audioRecorder?.audioRecorder.record()
+        self.setWavedProgress()
     }
     func scrollWavedProgressView(translation: CGFloat, point: CGPoint){
         self.createAudioView.wavedProgressView.translation = translation
@@ -105,10 +88,10 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     }
     func setWavedProgress(){
         self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-            if let audioRecorder = self.audioRecorder{
+            if let audioRecorder = self.createAudioViewModel.audioRecorder?.audioRecorder{
                 audioRecorder.updateMeters()
                 let db = audioRecorder.averagePower(forChannel: 0)
-                self.arr.append(CGFloat(db))
+                self.averagePowerList.append(CGFloat(db))
                 self.createAudioView.wavedProgressView.volumes = self.normalizeSoundLevel(level: db)
                 self.createAudioView.wavedProgressView.setNeedsDisplay()
             }
@@ -122,7 +105,7 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         return CGFloat(Float(level / (highLevel - lowLevel)))
     }
     func setTotalPlayTimeLabel(){
-        if audioRecorder != nil{
+        if createAudioViewModel.audioRecorder?.audioRecorder != nil{
             let audioLenSec = Int(audioPlayer!.duration)
             let min = audioLenSec / 60 < 10 ? "0" + String(audioLenSec / 60) : String(audioLenSec / 60)
             let sec = audioLenSec % 60 < 10 ? "0" + String(audioLenSec % 60) : String(audioLenSec % 60)
@@ -147,7 +130,7 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     
     func initAudioPlayer() {
         do {
-            try audioPlayer = AVAudioPlayer(contentsOf: audioRecorder!.url)
+            try audioPlayer = AVAudioPlayer(contentsOf: (createAudioViewModel.audioRecorder?.audioRecorder.url)!)
         } catch {
             print("error: \(error.localizedDescription)")
         }
@@ -161,20 +144,22 @@ extension CreateAudioViewController{
     @objc private func tapRecordingButton() {
       if createAudioView.recordingButton.isSelected {
             timer?.invalidate()
-            audioRecorder?.stop()
+          createAudioViewModel.audioRecorder?.audioRecorder.stop()
+          self.createAudioView.currTimeLabel.isHidden = true
             self.bottonsToggle(true)
             self.initAudioPlayer()
             self.setTotalPlayTimeLabel()
             self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
             self.navigationItem.rightBarButtonItem?.isEnabled = true
         }else{
-          if !arr.isEmpty {
+          if !averagePowerList.isEmpty {
             createAudioView.wavedProgressView.removeLayer()
             self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
           }
-          self.arr = []
-          createAudioView.wavedProgressView.layoutIfNeeded() // view reload 안됨
+            self.averagePowerList = []
           createAudioView.wavedProgressView.xOffset = self.view.center.x / 3 - 1
+          self.createAudioView.currTimeLabel.isHidden = false
+          self.createAudioView.totalLenLabel.isHidden = true
           self.bottonsToggle(false)
           self.startRecording()
         }
@@ -189,11 +174,10 @@ extension CreateAudioViewController{
         }else{
             createAudioView.buttons.playButton.isSelected = true
             createAudioView.recordingButton.isEnabled = false
-//          createAudioView.wavedProgressView.layer.
             audioPlayer?.delegate = self
             audioPlayer?.play()
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-                if self.arr.count > self.index{
+                if self.averagePowerList.count > self.index{
                     self.index += 1
                     self.createAudioView.wavedProgressView.scrollLayerScroll()
                 }else{
@@ -240,14 +224,7 @@ extension CreateAudioViewController{
     }
     @objc
     func tapDoneButton() {
-        guard let audioRecorder = audioRecorder else {
-            Alert.present(title: nil,
-                          message: "녹음을 진행하지 않았습니다.",
-                          actions: .ok(nil),
-                          from: self)
-            self.navigationController?.popViewController(animated: true)
-            return
-        }
+        guard let audioRecorder = createAudioViewModel.audioRecorder?.audioRecorder else { return }
         do {
             let data = try Data(contentsOf: audioRecorder.url)
             uploadDataToStorage(data: data)
@@ -260,20 +237,10 @@ extension CreateAudioViewController{
     }
 }
 
-
-//        self.vm.averagePowerList.bind { list in
-//            self.createAudioView.wavedProgressView.volumes = self.normalizeSoundLevel(level: db)
-//            self.createAudioView.wavedProgressView.setNeedsDisplay()
-//        }
-
-
-//        AVFAudio.AVAudioEngine.audioUnit.AVAudioUnit.AVAudioUnitEQFilterParameters.frequency
-//        let a = AVAudioEngine()
-//        let eq = AVAudioUnitEQ(numberOfBands: 1)
-//        let filterParams = eq.bands[0] as AVAudioUnitEQFilterParameters
-//        filterParams.filterType = .lowPass
-//        filterParams.frequency = 100.0
-//        filterParams.bypass = false
-//        a.attach(eq)
-
-
+extension CreateAudioViewController{
+    func bind(){
+        createAudioViewModel.currTime.bind { time in
+            self.createAudioView.currTimeLabel.text = time.currTimeText
+        }
+    }
+}
