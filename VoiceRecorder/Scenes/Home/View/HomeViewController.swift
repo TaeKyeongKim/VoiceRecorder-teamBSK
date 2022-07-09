@@ -151,8 +151,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         homeViewModel.enquireForURL(data) { url in
             guard let url = url else {return}
             LoadingIndicator.showLoading()
-            let playScene = PlayViewController()
-            playScene.playViewModel.url = url
+            let playScene = PlayViewController(url)
             self.navigationController?.pushViewController(playScene, animated: true)
         }
     }

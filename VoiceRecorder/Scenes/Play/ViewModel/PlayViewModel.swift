@@ -8,11 +8,15 @@
 import Foundation
 
 class PlayViewModel {
-  var url: URL?
+  private var url: URL?
   private var audio: Audio?
   var isPlaying: Observable<Bool> = Observable(false)
   var playerProgress: Observable<Double> = Observable(0.0)
   var playerTime: Observable<PlayerTime> = Observable(.zero)
+
+  func setupURL(_ url: URL) {
+    self.url = url
+  }
 
   func setupAudio() {
     guard let url = url else { return }
@@ -23,9 +27,15 @@ class PlayViewModel {
 
   func setupData() {
     guard let audio = audio else { return }
-    self.isPlaying = audio.isPlaying
-    self.playerProgress = audio.playerProgress
-    self.playerTime = audio.playerTime
+    audio.isPlaying.bind { val in
+      self.isPlaying.value = val
+    }
+    audio.playerProgress.bind { val in
+      self.playerProgress.value = val
+    }
+    audio.playerTime.bind { val in
+      self.playerTime.value = val
+    }
   }
 
   func stop() {
