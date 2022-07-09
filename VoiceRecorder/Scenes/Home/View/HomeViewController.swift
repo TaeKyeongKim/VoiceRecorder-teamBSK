@@ -52,7 +52,7 @@ private extension HomeViewController {
   
   @objc func addButtonDidTap() {
     let audioCreationViewController = CreateAudioViewController()
-    navigationController?.pushViewController(audioCreationViewController, animated: true)
+    navigationController?.pushViewController(audioCreationViewController, animated: false)
   }
   
   func setTableView(){
@@ -185,8 +185,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     self.checkNetworkConnection()
     homeViewModel.enquireForURL(data) { url in
       guard let url = url else {return}
-      let playScene = PlayViewController()
-      playScene.playViewModel.url = url
+      let playScene = PlayViewController(url)
       self.navigationController?.pushViewController(playScene, animated: true)
 
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C4E6FC928794239002EC5E3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7C4E6FC828794239002EC5E3 /* FirebaseStorage */; };
 		B757C3492873F0A400606708 /* CreateAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C3482873F0A400606708 /* CreateAudioView.swift */; };
 		B757C36D2875735700606708 /* WavedProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36C2875735700606708 /* WavedProgressView.swift */; };
 		B757C3702876722000606708 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C36F2876722000606708 /* NetworkError.swift */; };
@@ -19,7 +20,6 @@
 		B757C39428770A8F00606708 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C39028770A8E00606708 /* Observable.swift */; };
 		B757C39528770A8F00606708 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C39128770A8F00606708 /* LoadingIndicator.swift */; };
 		B757C39628770A8F00606708 /* WaveGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B757C39228770A8F00606708 /* WaveGenerator.swift */; };
-		B7A56DB12869A4D300EA639D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B7A56DB02869A4D300EA639D /* FirebaseStorage */; };
 		B7A56DCA286B2D0300EA639D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7A56DC9286B2D0300EA639D /* GoogleService-Info.plist */; };
 		B7A56DCD286C1ABF00EA639D /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A56DCC286C1ABE00EA639D /* EndPoint.swift */; };
 		B7A56DCF286C1C6400EA639D /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A56DCE286C1C6400EA639D /* FirebaseService.swift */; };
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7A56DB12869A4D300EA639D /* FirebaseStorage in Frameworks */,
+				7C4E6FC928794239002EC5E3 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +265,7 @@
 			);
 			name = VoiceRecorder;
 			packageProductDependencies = (
-				B7A56DB02869A4D300EA639D /* FirebaseStorage */,
+				7C4E6FC828794239002EC5E3 /* FirebaseStorage */,
 			);
 			productName = SNPLab;
 			productReference = DE15E65828604278003DD2F5 /* VoiceRecorder.app */;
@@ -296,7 +296,7 @@
 			);
 			mainGroup = DE15E64F28604278003DD2F5;
 			packageReferences = (
-				B7A56DAF2869A4D300EA639D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				7C4E6FC728794239002EC5E3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = DE15E65928604278003DD2F5 /* Products */;
 			projectDirPath = "";
@@ -562,20 +562,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B7A56DAF2869A4D300EA639D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		7C4E6FC728794239002EC5E3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B7A56DB02869A4D300EA639D /* FirebaseStorage */ = {
+		7C4E6FC828794239002EC5E3 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B7A56DAF2869A4D300EA639D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 7C4E6FC728794239002EC5E3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
