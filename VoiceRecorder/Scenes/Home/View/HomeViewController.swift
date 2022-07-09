@@ -5,6 +5,8 @@
 
 import UIKit
 
+import AVFoundation
+
 final class HomeViewController: UIViewController {
   
   private var homeTableView: UITableView?
@@ -51,8 +53,23 @@ private extension HomeViewController {
   }
   
   @objc func addButtonDidTap() {
-    let audioCreationViewController = CreateAudioViewController()
-    navigationController?.pushViewController(audioCreationViewController, animated: false)
+      AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+          DispatchQueue.main.async {
+              if granted {
+                  let audioCreationViewController = CreateAudioViewController()
+                  self.navigationController?.pushViewController(audioCreationViewController, animated: false)
+              } else {
+                  print("마이크 권한 거절")
+                  guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                  
+                  if UIApplication.shared.canOpenURL(url) {
+                      UIApplication.shared.open(url) { success in
+                          print("마이크 권한 환경설정에서 허용")
+                      }
+                  }
+              }
+          }
+      })
   }
   
   func setTableView(){
