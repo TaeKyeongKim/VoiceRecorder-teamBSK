@@ -45,16 +45,8 @@ class CreateAudioView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    lazy var doneButton: UIButton = {
-        let button = UIButton()
-        button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle("Done", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     func setButtons(){
         self.buttons.playButton.setImage(UIImage(systemName: "pause.circle.fill"), for: .selected)
-        self.doneButton.isEnabled = false
         self.buttons.playButton.isEnabled = false
         self.buttons.backButton.isEnabled = false
         self.buttons.forwordButton.isEnabled = false
@@ -65,7 +57,6 @@ class CreateAudioView: UIView {
         self.addSubview(wavedProgressView)
         self.addSubview(recordingButton)
         self.addSubview(buttons)
-        self.addSubview(doneButton)
         self.addSubview(totalLenLabel)
         wavedProgressView.addSubview(line)
         NSLayoutConstraint.activate([
@@ -93,11 +84,6 @@ class CreateAudioView: UIView {
             buttons.topAnchor.constraint(equalTo: recordingButton.bottomAnchor, constant: 30),
             buttons.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             buttons.widthAnchor.constraint(equalToConstant: 200),
-            
-            doneButton.topAnchor.constraint(equalTo: buttons.bottomAnchor, constant: 30),
-            doneButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            doneButton.heightAnchor.constraint(equalToConstant: 50),
-            doneButton.widthAnchor.constraint(equalToConstant: 50),
         ])
     }
 }

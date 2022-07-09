@@ -27,9 +27,14 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationItems()
         setConstraint()
         setButtonsTarget()
-//        self.navigationItem.hidesBackButton = true
+    }
+    func setNavigationItems(){
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(tapCancel))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tapDoneButton))
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
     }
     func setConstraint() {
         createAudioView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,15 +67,9 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
           action: #selector(forwardButtonClicked),
           for: .touchUpInside
         )
-        createAudioView.doneButton.addTarget(
-          self,
-          action: #selector(tapDoneButton),
-          for: .touchUpInside
-        )
     }
     func bottonsToggle(_ bool: Bool){
         createAudioView.recordingButton.isSelected = !bool
-//        createAudioView.doneButton.isEnabled = bool
         createAudioView.buttons.playButton.isEnabled = bool
         createAudioView.buttons.backButton.isEnabled = bool
         createAudioView.buttons.forwordButton.isEnabled = bool
@@ -156,6 +155,9 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
 }
 
 extension CreateAudioViewController{
+    @objc private func tapCancel() {
+        self.navigationController?.popViewController(animated: true)
+    }
     @objc private func tapRecordingButton() {
         if createAudioView.recordingButton.isSelected{
             timer?.invalidate()
@@ -164,10 +166,10 @@ extension CreateAudioViewController{
             self.initAudioPlayer()
             self.setTotalPlayTimeLabel()
             self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
         }else{
             self.arr = []
-//            createAudioView.wavedProgressView.draw // 1. view reload 안됨
-//            createAudioView.wavedProgressView.lineLayer
+            createAudioView.wavedProgressView.layoutIfNeeded() // view reload 안됨
             createAudioView.wavedProgressView.xOffset = self.view.center.x / 3 - 1
             self.bottonsToggle(false)
             self.startRecording()
