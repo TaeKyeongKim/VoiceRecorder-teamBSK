@@ -11,16 +11,20 @@ class CreateAudioView: UIView {
     override init(frame: CGRect) {
       super.init(frame: frame)
         setButtons()
-        config()
+        setConstraint()
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     let buttons = PlayButtonView()
     var wavedProgressView: WavedProgressView = {
         var view = WavedProgressView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    var line: UIView = {
+        var view = UIView()
+        view.backgroundColor = .systemBlue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -35,8 +39,9 @@ class CreateAudioView: UIView {
     lazy var recordingButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.systemBlue, for: .normal)
-        button.setTitle("시작", for: .normal)
-        button.setTitle("중지", for: .selected)
+        button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 35), forImageIn: .normal)
+        button.setImage(UIImage(systemName: "record.circle"), for: .selected)
+        button.setImage(UIImage(systemName: "record.circle.fill"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -48,48 +53,50 @@ class CreateAudioView: UIView {
         return button
     }()
     func setButtons(){
-        buttons.playButton.isEnabled = false
-        buttons.backButton.isEnabled = false
-        buttons.forwordButton.isEnabled = false
-        buttons.translatesAutoresizingMaskIntoConstraints = false
+        self.buttons.playButton.setImage(UIImage(systemName: "pause.circle.fill"), for: .selected)
+        self.buttons.playButton.isEnabled = false
+        self.buttons.backButton.isEnabled = false
+        self.buttons.forwordButton.isEnabled = false
+        self.buttons.translatesAutoresizingMaskIntoConstraints = false
     }
-    func config(){
+    func setConstraint(){
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(wavedProgressView)
         self.addSubview(recordingButton)
         self.addSubview(buttons)
         self.addSubview(doneButton)
         self.addSubview(totalLenLabel)
+        wavedProgressView.addSubview(line)
         NSLayoutConstraint.activate([
-//            wavedProgressView.topAnchor.constraint(equalTo: self.topAnchor, constant: 150),
+            wavedProgressView.topAnchor.constraint(equalTo: self.topAnchor, constant: 50),
             wavedProgressView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             wavedProgressView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             wavedProgressView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            wavedProgressView.heightAnchor.constraint(equalToConstant: 250),
+            wavedProgressView.heightAnchor.constraint(equalToConstant: 150),
 
-//            wavedProgressView.bottomAnchor.constraint(equalTo: totalLenLabel.topAnchor, constant: -25),
-//            wavedProgressView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -400)
-            
-//            totalLenLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 100),
-            totalLenLabel.bottomAnchor.constraint(equalTo: recordingButton.topAnchor, constant: -25),
+            line.topAnchor.constraint(equalTo: wavedProgressView.topAnchor),
+            line.bottomAnchor.constraint(equalTo: wavedProgressView.bottomAnchor),
+            line.widthAnchor.constraint(equalToConstant: 3),
+            line.centerXAnchor.constraint(equalTo: wavedProgressView.centerXAnchor),
+
+            totalLenLabel.topAnchor.constraint(equalTo: wavedProgressView.bottomAnchor, constant: 30),
             totalLenLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             totalLenLabel.heightAnchor.constraint(equalToConstant: 50),
             totalLenLabel.widthAnchor.constraint(equalToConstant: 200),
             
-//            recordingButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 300),
-            recordingButton.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -25),
+            recordingButton.topAnchor.constraint(equalTo: totalLenLabel.bottomAnchor, constant: 30),
             recordingButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             recordingButton.heightAnchor.constraint(equalToConstant: 50),
             recordingButton.widthAnchor.constraint(equalToConstant: 50),
             
-//            doneButton.topAnchor.constraint(equalTo: recordingButton.bottomAnchor, constant: 100),
-            doneButton.bottomAnchor.constraint(equalTo: buttons.topAnchor, constant: -25),
+            buttons.topAnchor.constraint(equalTo: recordingButton.bottomAnchor, constant: 30),
+            buttons.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            buttons.widthAnchor.constraint(equalToConstant: 200),
+            
+            doneButton.topAnchor.constraint(equalTo: buttons.bottomAnchor, constant: 30),
             doneButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             doneButton.heightAnchor.constraint(equalToConstant: 50),
             doneButton.widthAnchor.constraint(equalToConstant: 50),
-            
-            buttons.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -25),
-            buttons.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            buttons.widthAnchor.constraint(equalToConstant: 200),
         ])
     }
 }
