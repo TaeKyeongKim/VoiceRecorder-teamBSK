@@ -159,7 +159,7 @@ extension CreateAudioViewController{
         self.navigationController?.popViewController(animated: true)
     }
     @objc private func tapRecordingButton() {
-        if createAudioView.recordingButton.isSelected{
+      if createAudioView.recordingButton.isSelected {
             timer?.invalidate()
             audioRecorder?.stop()
             self.bottonsToggle(true)
@@ -168,11 +168,15 @@ extension CreateAudioViewController{
             self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
             self.navigationItem.rightBarButtonItem?.isEnabled = true
         }else{
-            self.arr = []
-            createAudioView.wavedProgressView.layoutIfNeeded() // view reload 안됨
-            createAudioView.wavedProgressView.xOffset = self.view.center.x / 3 - 1
-            self.bottonsToggle(false)
-            self.startRecording()
+          if !arr.isEmpty {
+            createAudioView.wavedProgressView.removeLayer()
+            self.scrollWavedProgressView(translation: 0.0, point: self.firstPoint)
+          }
+          self.arr = []
+          createAudioView.wavedProgressView.layoutIfNeeded() // view reload 안됨
+          createAudioView.wavedProgressView.xOffset = self.view.center.x / 3 - 1
+          self.bottonsToggle(false)
+          self.startRecording()
         }
     }
     @objc
@@ -185,6 +189,7 @@ extension CreateAudioViewController{
         }else{
             createAudioView.buttons.playButton.isSelected = true
             createAudioView.recordingButton.isEnabled = false
+//          createAudioView.wavedProgressView.layer.
             audioPlayer?.delegate = self
             audioPlayer?.play()
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in

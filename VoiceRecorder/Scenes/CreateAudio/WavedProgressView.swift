@@ -62,5 +62,9 @@ class WavedProgressView: UIView {
         scrollLayer.scroll(newPoint)
         translation += 3
     }
+  
+  func removeLayer() {
+    scrollLayer.sublayers?.removeAll()
+  }
 }
 
