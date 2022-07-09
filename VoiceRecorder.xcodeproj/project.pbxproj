@@ -197,6 +197,7 @@
 				B7AB7E7A286EC1410051095E /* TimeFormatter.swift */,
 				B757C3712876A66400606708 /* NetworkMonitor.swift */,
 				B757C3732876C76D00606708 /* Alert.swift */,
+				7C4E6FD72879AE0B002EC5E3 /* AudioRecorder.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -224,7 +225,6 @@
 		B7AB7E69286E0F810051095E /* CreateAudio */ = {
 			isa = PBXGroup;
 			children = (
-				7C4E6FD72879AE0B002EC5E3 /* AudioRecorder.swift */,
 				7C4E6FD42879ADE1002EC5E3 /* View */,
 				7C4E6FD32879ADD8002EC5E3 /* ViewModel */,
 			);
