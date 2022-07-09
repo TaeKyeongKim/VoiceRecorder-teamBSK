@@ -29,7 +29,7 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
         super.viewDidLoad()
         setConstraint()
         setButtonsTarget()
-        self.navigationItem.hidesBackButton = true
+//        self.navigationItem.hidesBackButton = true
     }
     func setConstraint() {
         createAudioView.translatesAutoresizingMaskIntoConstraints = false
@@ -70,7 +70,7 @@ class CreateAudioViewController: UIViewController, AVAudioPlayerDelegate, AVAudi
     }
     func bottonsToggle(_ bool: Bool){
         createAudioView.recordingButton.isSelected = !bool
-        createAudioView.doneButton.isEnabled = bool
+//        createAudioView.doneButton.isEnabled = bool
         createAudioView.buttons.playButton.isEnabled = bool
         createAudioView.buttons.backButton.isEnabled = bool
         createAudioView.buttons.forwordButton.isEnabled = bool

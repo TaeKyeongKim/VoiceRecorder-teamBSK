@@ -54,6 +54,7 @@ class CreateAudioView: UIView {
     }()
     func setButtons(){
         self.buttons.playButton.setImage(UIImage(systemName: "pause.circle.fill"), for: .selected)
+        self.doneButton.isEnabled = false
         self.buttons.playButton.isEnabled = false
         self.buttons.backButton.isEnabled = false
         self.buttons.forwordButton.isEnabled = false
