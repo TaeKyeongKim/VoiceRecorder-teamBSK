@@ -37,7 +37,7 @@ class PlayView: UIView {
       $0.backgroundColor = .white
       self.addSubview($0)
     }
-    volumeView.backgroundColor = .systemBlue // MARK: - Simulator size
+//    volumeView.backgroundColor = .systemBlue // MARK: - Simulator size
     segmentControl.selectedSegmentIndex = 0
     setupLabel()
   }

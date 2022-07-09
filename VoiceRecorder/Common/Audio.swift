@@ -181,9 +181,9 @@ class Audio {
     case 0:
       pitchControl.pitch = 0
     case 1:
-      pitchControl.pitch = 100
+      pitchControl.pitch = 500
     case 2:
-      pitchControl.pitch = -100
+      pitchControl.pitch = -300
     default: return
     }
   }

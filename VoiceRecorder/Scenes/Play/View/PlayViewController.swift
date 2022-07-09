@@ -13,6 +13,15 @@ class PlayViewController: UIViewController {
   let playView = PlayView()
   let playViewModel = PlayViewModel()
 
+  init(_ url: URL) {
+    super.init(nibName: nil, bundle: nil)
+    playViewModel.setupURL(url)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("Play ViewController Error")
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     LoadingIndicator.showLoading()
